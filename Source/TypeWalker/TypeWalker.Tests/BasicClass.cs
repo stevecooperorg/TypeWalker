@@ -15,6 +15,16 @@ namespace TypeWalker.Tests
 
         public string StringField;
 
+        public ReferencedClass NavigationProperty { get; set; }
+
+        public ReferencedClass NavigationProperty2 { get; set; }
+    }
+
+    public class ReferencedClass
+    {
+        public ReferencedClass SelfReference { get; set; }
+        public BasicClass BackReference { get; set; }
 
     }
+
 }

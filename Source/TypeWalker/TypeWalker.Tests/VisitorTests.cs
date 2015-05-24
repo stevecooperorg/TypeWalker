@@ -9,7 +9,7 @@ namespace TypeWalker.Tests
     public class VisitorTests
     {
         [TestMethod]
-        public void VisitorBasicClass()
+        public void Visitor_OutputIsCorrect()
         {
             var trace = new StringBuilder();
             var visitor = new Visitor();
@@ -20,16 +20,23 @@ namespace TypeWalker.Tests
 
             visitor.MemberVisiting += (sender, args) => { trace.AppendFormat("  {0} : {1};", args.MemberName, args.MemberTypeName).AppendLine(); };
             //visitor.MemberVisited +=  (sender, args) => { trace.AppendFormat("  }}").AppendLine(); };
-           
-            visitor.Visit(typeList);
+
+            var namer = new CSharpLanguage();
+            visitor.Visit(typeList, namer);
              
             var actual = trace.ToString().Trim();
             var expected = @"
 interface BasicClass {
   GetterSetterString : String;
   GetterPrivateSetterString : Int32;
-  NullableGetterSetterBool : Nullable<Bool>;
+  NullableGetterSetterBool : Nullable<Boolean>;
+  NavigationProperty : ReferencedClass;
+  NavigationProperty2 : ReferencedClass;
   StringField : String;
+}
+interface ReferencedClass {
+  SelfReference : ReferencedClass;
+  BackReference : BasicClass;
 }
 ".Trim();
             Assert.AreEqual(expected, actual);
