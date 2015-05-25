@@ -23,7 +23,7 @@ namespace TypeWalker
         {
             try
             {
-                var parts  =Regex.Split(assemblyNameAndNamespaceReference, "::");
+                var parts = Regex.Split(assemblyNameAndNamespaceReference, "::");
                 var assemblyName = parts[0];
                 var namespaceName = parts[1];
                 var assembly = assemblyLoader.Load(assemblyName);
@@ -58,23 +58,24 @@ namespace TypeWalker
         {
             try
             {
+                bool loadFailed = false;
+                List<Type> allTypes = new List<Type>();
                 foreach (var assemblyName in assemblyNames)
                 {
                     Type[] types;
                     if (TryLoadTypes(assemblyName, runtime, out types))
                     {
-                        result = generator.Generate(types);
-                        return true;
+                        allTypes.AddRange(types);
                     }
                     else
                     {
-                        result = null;
-                        return false;
+                        loadFailed = true;
+                        break;
                     }
                 }
 
-                result = null;
-                return false;
+                result = generator.Generate(allTypes);
+                return true;
             }
             catch
             {

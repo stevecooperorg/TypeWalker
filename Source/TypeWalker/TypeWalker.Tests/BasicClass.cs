@@ -36,5 +36,6 @@ namespace AlternateNamespace
     public class DistinctClass
     {
         public string Foo { get; set; }
+        public NamespaceOfTestClasses.ReferencedClass Backreference { get; set; }
     }
 }
