@@ -1,0 +1,25 @@
+﻿start namespace TypeWalker.Tests
+  start type BasicClass
+    start property 'GetterSetterString' of type 'String'
+    end property 'GetterSetterString' of type 'String'
+    start property 'GetterPrivateSetterString' of type 'Int32'
+    end property 'GetterPrivateSetterString' of type 'Int32'
+    start property 'NullableGetterSetterBool' of type 'Nullable<Boolean>'
+    end property 'NullableGetterSetterBool' of type 'Nullable<Boolean>'
+    start property 'NavigationProperty' of type 'ReferencedClass'
+    end property 'NavigationProperty' of type 'ReferencedClass'
+    start property 'NavigationProperty2' of type 'ReferencedClass'
+    end property 'NavigationProperty2' of type 'ReferencedClass'
+    start property 'StringField' of type 'String'
+    end property 'StringField' of type 'String'
+  end type BasicClass
+end namespace TypeWalker.Tests
+
+start namespace TypeWalker.Tests
+  start type ReferencedClass
+    start property 'SelfReference' of type 'ReferencedClass'
+    end property 'SelfReference' of type 'ReferencedClass'
+    start property 'BackReference' of type 'BasicClass'
+    end property 'BackReference' of type 'BasicClass'
+  end type ReferencedClass
+end namespace TypeWalker.Tests

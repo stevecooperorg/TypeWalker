@@ -8,6 +8,7 @@ namespace TypeWalker.Tests
 {
     public class BasicClass
     {
+        [IgnoreForLanguageGenerator(Generators.KnockoutMappingGenerator.Id)]
         public string GetterSetterString { get; set; }
         public int GetterPrivateSetterString { get; private set; }
         private DateTime PrivateGetterSetterDate { get; set; }

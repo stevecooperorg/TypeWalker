@@ -51,6 +51,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BasicClass.cs" />
+    <Compile Include="Results\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TypescriptGeneratorTests.cs" />
     <Compile Include="VisitorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -59,6 +65,24 @@
       <Project>{4f1178a4-766e-4841-a79c-d1b826d7222c}</Project>
       <Name>TypeWalker</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Results\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Results\VisitorTestsResult.txt" />
+    <TypeScriptCompile Include="Results\KnockoutResult.d.ts" />
+    <TypeScriptCompile Include="Results\TypeScriptResult.d.ts" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
