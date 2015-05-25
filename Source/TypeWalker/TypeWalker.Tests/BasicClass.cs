@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TypeWalker;
+using TypeWalker.Generators;
 
-namespace TypeWalker.Tests
+namespace NamespaceOfTestClasses
 {
     public class BasicClass
     {
-        [IgnoreForLanguageGenerator(Generators.KnockoutMappingGenerator.Id)]
+        [IgnoreForLanguageGenerator(KnockoutMappingGenerator.Id)]
         public string GetterSetterString { get; set; }
         public int GetterPrivateSetterString { get; private set; }
         private DateTime PrivateGetterSetterDate { get; set; }
@@ -27,5 +29,12 @@ namespace TypeWalker.Tests
         public BasicClass BackReference { get; set; }
 
     }
+}
 
+namespace AlternateNamespace
+{
+    public class DistinctClass
+    {
+        public string Foo { get; set; }
+    }
 }

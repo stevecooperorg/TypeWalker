@@ -1,17 +1,17 @@
-﻿module TypeWalker.Tests {
+﻿declare module NamespaceOfTestClasses {
     export interface BasicClass {
         GetterSetterString: string;
         GetterPrivateSetterString: number;
         NullableGetterSetterBool: boolean;
-        NavigationProperty: TypeWalker.Tests.ReferencedClass;
-        NavigationProperty2: TypeWalker.Tests.ReferencedClass;
-        StringField: String;
+        NavigationProperty: NamespaceOfTestClasses.ReferencedClass;
+        NavigationProperty2: NamespaceOfTestClasses.ReferencedClass;
+        StringField: string;
     }
 }
 
-module TypeWalker.Tests {
+declare module NamespaceOfTestClasses {
     export interface ReferencedClass {
-        SelfReference: ReferencedClass;
-        BackReference: TypeWalker.Tests.BasicClass;
+        SelfReference: NamespaceOfTestClasses.ReferencedClass;
+        BackReference: NamespaceOfTestClasses.BasicClass;
     }
 }

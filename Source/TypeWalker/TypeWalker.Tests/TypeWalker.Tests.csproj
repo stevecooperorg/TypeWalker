@@ -56,8 +56,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TypescriptGeneratorTests.cs" />
-    <Compile Include="VisitorTests.cs" />
+    <Compile Include="StringAssert.cs" />
+    <Compile Include="Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Results\VisitorTestsResult.txt" />
+    <TypeScriptCompile Include="Results\FileGeneratorResults.d.ts" />
     <TypeScriptCompile Include="Results\KnockoutResult.d.ts" />
     <TypeScriptCompile Include="Results\TypeScriptResult.d.ts" />
   </ItemGroup>

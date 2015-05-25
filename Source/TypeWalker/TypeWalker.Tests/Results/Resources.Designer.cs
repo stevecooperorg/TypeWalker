@@ -63,6 +63,24 @@ namespace TypeWalker.Tests.Results {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        internal static string FileGeneratorResults {
+            get {
+                return ResourceManager.GetString("FileGeneratorResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to declare module KOGenerated.TypeWalker.Tests {
+        ///    export interface BasicClass {
+        ///        GetterSetterString(): string;
+        ///        GetterSetterString(value: string): void;
+        ///        GetterPrivateSetterString(): number;
+        ///        GetterPrivateSetterString(value: number): void;
+        ///        NullableGetterSetterBool(): boolean;
+        ///        NullableGetterSetterBool(value: boolean): void;
+        ///        NavigationProperty(): KOGenerated.TypeWalker.Tests.ReferencedClass;
+        ///        NavigationProperty(value: KOGenerated.TypeWalker.T [rest of string was truncated]&quot;;.
+        /// </summary>
         internal static string KnockoutResult {
             get {
                 return ResourceManager.GetString("KnockoutResult", resourceCulture);
@@ -70,21 +88,21 @@ namespace TypeWalker.Tests.Results {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to module TypeWalker.Tests {
+        ///   Looks up a localized string similar to declare module TypeWalker.Tests {
         ///    export interface BasicClass {
         ///        GetterSetterString: string;
         ///        GetterPrivateSetterString: number;
         ///        NullableGetterSetterBool: boolean;
         ///        NavigationProperty: TypeWalker.Tests.ReferencedClass;
         ///        NavigationProperty2: TypeWalker.Tests.ReferencedClass;
-        ///        StringField: String;
+        ///        StringField: string;
         ///    }
         ///}
         ///
-        ///module TypeWalker.Tests {
+        ///declare module TypeWalker.Tests {
         ///    export interface ReferencedClass {
-        ///        SelfReference: ReferencedClass;
-        ///        BackReference: TypeWalker.Tests.BasicCla [rest of string was truncated]&quot;;.
+        ///        SelfReference: TypeWalker.Tests.ReferencedClass;
+        ///        BackRef [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TypeScriptResult {
             get {
