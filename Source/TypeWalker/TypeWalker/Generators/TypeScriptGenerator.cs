@@ -61,5 +61,10 @@ namespace TypeWalker.Generators
                 return string.Empty;
             }
         }
+
+        public override bool ExportsNonPublicMembers
+        {
+            get { return false; }
+        }
     }
 }

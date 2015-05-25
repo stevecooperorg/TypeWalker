@@ -103,7 +103,7 @@ namespace TypeWalker
         }
         private void VisitField(FieldInfo member)
         {
-            var args = GetMemberEventArgs(member.Name, member.FieldType);
+            var args = GetMemberEventArgs(member.Name, member.FieldType, member.IsPublic);
 
             if (MemberVisiting != null) { MemberVisiting(this, args); }
 
@@ -120,22 +120,25 @@ namespace TypeWalker
             return type.IsValueType == false && type != typeof(string);
         }
 
-        private MemberEventArgs GetMemberEventArgs(string name, Type type)
+        private MemberEventArgs GetMemberEventArgs(string name, Type type, bool isPublic)
         {
             var args = new MemberEventArgs()
             {
                 MemberName = name,
                 MemberTypeName = TypeName(type),
                 MemberTypeFullName = FullName(type),
-                MemberTypeNameSpaceName = NameSpace(type)
+                MemberTypeNameSpaceName = NameSpace(type),
+                IsPublic = isPublic
             };
+
+
 
             return args; 
         }
 
         private void VisitProperty(PropertyInfo member)
         {
-            var args = GetMemberEventArgs(member.Name, member.PropertyType);
+            var args = GetMemberEventArgs(member.Name, member.PropertyType, member.GetGetMethod().IsPublic);
 
             if (MemberVisiting != null) { MemberVisiting(this, args); }
 

@@ -30,6 +30,7 @@ namespace TypeWalker.Generators
 
         public abstract string MemberEndFormat { get; }
 
+        public abstract bool ExportsNonPublicMembers { get; }
 
         public string Generate(IEnumerable<Type> startingTypes)
         {
@@ -42,8 +43,20 @@ namespace TypeWalker.Generators
             visitor.TypeVisiting += (sender, args) => { trace.AppendFormatObject(TypeStartFormat, args); };
             visitor.TypeVisited += (sender, args) => { trace.AppendFormatObject(TypeEndFormat, args); };
 
-            visitor.MemberVisiting += (sender, args) => { trace.AppendFormatObject(MemberStartFormat, args); };
-            visitor.MemberVisited += (sender, args) => { trace.AppendFormatObject(MemberEndFormat, args); };
+            visitor.MemberVisiting += (sender, args) => {
+                if (this.ExportsNonPublicMembers || args.IsPublic)
+                {
+                    trace.AppendFormatObject(MemberStartFormat, args);
+                }
+            };
+
+            visitor.MemberVisited += (sender, args) =>
+            {
+                if (this.ExportsNonPublicMembers || args.IsPublic)
+                {
+                    trace.AppendFormatObject(MemberEndFormat, args);
+                };
+            };
 
             visitor.Visit(startingTypes, this.language);
 

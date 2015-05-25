@@ -1,7 +1,5 @@
 ﻿declare module KOGenerated.NamespaceOfTestClasses {
     export interface BasicClass {
-        GetterSetterString(): string;
-        GetterSetterString(value: string): void;
         GetterPrivateSetterString(): number;
         GetterPrivateSetterString(value: number): void;
         NullableGetterSetterBool(): boolean;
