@@ -52,6 +52,11 @@ namespace TypeWalker.Tests
                 ReferenceToClass(typeof(AlternateNamespace.DistinctClass))
             };
 
+            foreach (var root in roots)
+            {
+                Console.WriteLine(root);
+            }
+
             fileGenerator.TryGenerate(roots, rt, new TypeScriptGenerator(), out actual);
             Assert.IsNotNull(actual, "Doesn't look like it generated");
             StringAssert.AreEqual(Results.Resources.FileGeneratorResults, actual);

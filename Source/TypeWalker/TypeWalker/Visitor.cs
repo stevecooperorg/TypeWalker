@@ -42,13 +42,27 @@ namespace TypeWalker
             }
         }
 
+        private List<string> IgnoreLanguages(MemberInfo member)
+        {
+            var attributeData = member
+                .GetCustomAttributes<IgnoreForLanguageGeneratorAttribute>()
+                .ToList();
+
+            var attributeNames = attributeData
+                .Select(a => a.LanguageId)
+                .ToList();
+
+            return attributeNames;
+        }
+
         private void VisitType(Type type)
         {
             this.visited.Add(type);
 
+           
             var nsArgs = new NameSpaceEventArgs
             {
-                NameSpaceName = NameSpace(type)
+                NameSpaceName = NameSpace(type),
             };
 
             var args = new TypeEventArgs() 
@@ -103,7 +117,7 @@ namespace TypeWalker
         }
         private void VisitField(FieldInfo member)
         {
-            var args = GetMemberEventArgs(member.Name, member.FieldType, member.IsPublic);
+            var args = GetMemberEventArgs(member, member.FieldType);
 
             if (MemberVisiting != null) { MemberVisiting(this, args); }
 
@@ -120,25 +134,23 @@ namespace TypeWalker
             return type.IsValueType == false && type != typeof(string);
         }
 
-        private MemberEventArgs GetMemberEventArgs(string name, Type type, bool isPublic)
+        private MemberEventArgs GetMemberEventArgs(MemberInfo member, Type type)
         {
             var args = new MemberEventArgs()
             {
-                MemberName = name,
+                MemberName = member.Name,
                 MemberTypeName = TypeName(type),
                 MemberTypeFullName = FullName(type),
                 MemberTypeNameSpaceName = NameSpace(type),
-                IsPublic = isPublic
+                IgnoredByGenerators = this.IgnoreLanguages(member)
             };
-
-
 
             return args; 
         }
 
         private void VisitProperty(PropertyInfo member)
         {
-            var args = GetMemberEventArgs(member.Name, member.PropertyType, member.GetGetMethod().IsPublic);
+            var args = GetMemberEventArgs(member, member.PropertyType);
 
             if (MemberVisiting != null) { MemberVisiting(this, args); }
 

@@ -11,6 +11,8 @@ namespace TypeWalker
 {
     public class AssemblyLoader
     {
+        private AppDomain domain;
+
         private readonly string binDir;
         private bool eventsWired = false;
         private IRuntime runtime;
@@ -23,17 +25,34 @@ namespace TypeWalker
 
         public Assembly Load(string name)
         {
-            var assembly = Assembly.ReflectionOnlyLoad(name);
+            var assembly = domain.Load(name); // Assembly.ReflectionOnlyLoad(name);
             return assembly;
         }
 
         public void WireEvents()
         {
+            var evidence = AppDomain.CurrentDomain.Evidence;
+            var domainInfo = new AppDomainSetup
+            {
+                ApplicationBase = this.binDir,
+                ApplicationName = "assemblyLoader",
+                
+            };
+
+            this.domain = AppDomain.CurrentDomain;//.CreateDomain("assemblyLoader", evidence, domainInfo);
+
             if (eventsWired) { return; }
 
-            System.AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += (sender, args) =>
+            //this.domain.ReflectionOnlyAssemblyResolve += (sender, args) =>
+            //{
+            //    return domain.Load(args.Name);
+            //    //return Load(args.Name);
+            //};
+
+            this.domain.AssemblyResolve += (sender, args) =>
             {
-                return Load(args.Name);
+                return domain.Load(args.Name);
+                //return Load(args.Name);
             };
 
             eventsWired = true; 

@@ -43,8 +43,11 @@ namespace TypeWalker.Generators
             visitor.TypeVisiting += (sender, args) => { trace.AppendFormatObject(TypeStartFormat, args); };
             visitor.TypeVisited += (sender, args) => { trace.AppendFormatObject(TypeEndFormat, args); };
 
+            Func<MemberEventArgs, bool> include = args =>
+                (this.ExportsNonPublicMembers || args.IsPublic) && !args.IgnoredByGenerators.Contains(this.id);
+
             visitor.MemberVisiting += (sender, args) => {
-                if (this.ExportsNonPublicMembers || args.IsPublic)
+                if (include(args))
                 {
                     trace.AppendFormatObject(MemberStartFormat, args);
                 }
@@ -52,7 +55,7 @@ namespace TypeWalker.Generators
 
             visitor.MemberVisited += (sender, args) =>
             {
-                if (this.ExportsNonPublicMembers || args.IsPublic)
+                if (include(args))
                 {
                     trace.AppendFormatObject(MemberEndFormat, args);
                 };

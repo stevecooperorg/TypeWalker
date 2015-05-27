@@ -18,7 +18,15 @@ namespace TypeWalker.Tests
 
                 for (var i = 1; i < Math.Min(expectedLines.Count, actualLines.Count); i++)
                 {
-                    Assert.AreEqual(expectedLines[i], actualLines[i], "fail on line " + i);
+                    if (expectedLines[i] != actualLines[i])
+                    {
+                        var fail = string.Format(@"
+Fail on line {0}:
+Expected <{1}>
+Actual:  <{2}>
+", i, expectedLines[i], actualLines[i]);
+                        Assert.AreEqual(expected, actual, fail);
+                    }
                 }
 
                 Assert.AreEqual(expected, actual);

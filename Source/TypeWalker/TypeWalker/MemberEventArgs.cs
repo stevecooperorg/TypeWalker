@@ -18,11 +18,12 @@ namespace TypeWalker
 
         public bool IsPublic { get; set; }
 
-        public ICollection<string> IgnoredByGenerators { get; private set; }
+        public ICollection<string> IgnoredByGenerators { get; set; }
 
         public MemberEventArgs ()
 	    {
             this.IgnoredByGenerators = new List<string>();
+            this.IsPublic = true;
 	    }
     }
 }
