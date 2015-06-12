@@ -1,0 +1,21 @@
+﻿<!--
+
+TypeWalker.targets
+
+-->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CompileDependsOn>
+      $(CompileDependsOn);
+      CompileTypeWalker;
+    </CompileDependsOn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectCapability Include="TypeScript" />
+  </ItemGroup>
+
+  <Target Name="CompileTypeWalker" Condition="'$(BuildingProject)' != 'false'">
+  </Target>
+
+</Project>

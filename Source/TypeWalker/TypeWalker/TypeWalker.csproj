@@ -74,8 +74,15 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="NuGet\build\TypeWalker.props" />
+    <None Include="NuGet\build\TypeWalker.targets" />
     <None Include="pack.bat" />
     <None Include="TypeWalker.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NuGet\content\" />
+    <Folder Include="NuGet\lib\" />
+    <Folder Include="NuGet\tools\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
