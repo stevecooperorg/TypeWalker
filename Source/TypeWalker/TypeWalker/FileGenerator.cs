@@ -21,6 +21,12 @@ namespace TypeWalker
 
         private bool TryLoadTypes(string assemblyNameAndNamespaceReference, IRuntime runtime, out Type[] types)
         {
+            if (string.IsNullOrWhiteSpace(assemblyNameAndNamespaceReference))
+            {
+                types = new Type[0];
+                return true;
+            }
+
             try
             {
                 var parts = Regex.Split(assemblyNameAndNamespaceReference, "::");

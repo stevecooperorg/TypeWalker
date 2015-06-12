@@ -19,12 +19,14 @@ namespace TypeWalker
             string binDir = null;
             string language = null;
             string knockoutPrefix = null;
+            string outputFile = null;
 
             var optionSet = new NDesk.Options.OptionSet() {
                     { "binDir=", "", v => binDir = v },
                     { "language=", "", v => language = v },
                     { "knockoutPrefix=", "", v => knockoutPrefix = v },
-                    { "configFile=", "", v => configFile = v }
+                    { "configFile=", "", v => configFile = v },
+                    { "outputFile=", "", v => outputFile = v }
                 };
 
             optionSet.Parse(args);
@@ -70,9 +72,10 @@ namespace TypeWalker
             
             string fileContent;
             fileGenerator.TryGenerate(lines, runtime, generator, out fileContent);
-          
 
-            runtime.Error("not yet implemented, but running!");
+            File.WriteAllText(outputFile, fileContent);
+
+            //runtime.Error("not yet implemented, but running!");
 
         }
     }

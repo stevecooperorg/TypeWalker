@@ -49,11 +49,11 @@ namespace TypeWalker
             //    //return Load(args.Name);
             //};
 
-            this.domain.AssemblyResolve += (sender, args) =>
-            {
-                return domain.Load(args.Name);
-                //return Load(args.Name);
-            };
+            //this.domain.AssemblyResolve += (sender, args) =>
+            //{
+            //    return domain.Load(args.Name);
+            //    //return Load(args.Name);
+            //};
 
             eventsWired = true; 
         }

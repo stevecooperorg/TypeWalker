@@ -1,3 +1,2 @@
-﻿TypeWalker.Tests::NamespaceOfTestClasses
-TypeWalker.Tests::AlternateNamespace
+﻿ExampleClassLibrary::ExampleClassLibrary
 

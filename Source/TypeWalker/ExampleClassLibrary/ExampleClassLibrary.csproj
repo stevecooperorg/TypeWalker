@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4F1178A4-766E-4841-A79C-D1B826D7222C}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{E03470C7-2ACA-4146-81D7-F028BBA3E55B}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TypeWalker</RootNamespace>
-    <AssemblyName>TypeWalker</AssemblyName>
+    <RootNamespace>ExampleClassLibrary</RootNamespace>
+    <AssemblyName>ExampleClassLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -29,9 +29,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>TypeWalker.Program</StartupObject>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -42,40 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyLoader.cs" />
-    <Compile Include="ConsoleRuntime.cs" />
-    <Compile Include="DebugRuntime.cs" />
-    <Compile Include="Generators\CSharpLanguage.cs" />
-    <Compile Include="Generators\LanguageGenerator.cs" />
-    <Compile Include="Generators\Language.cs" />
-    <Compile Include="Generators\KnockoutMappingGenerator.cs" />
-    <Compile Include="Generators\LanguagePrinter.cs" />
-    <Compile Include="Extensions\StringFormatting.cs" />
-    <Compile Include="Generators\TypeInfo.cs" />
-    <Compile Include="Generators\TypeScriptGenerator.cs" />
-    <Compile Include="IgnoreForLanguageGeneratorAttribute.cs" />
-    <Compile Include="IRuntime.cs" />
-    <Compile Include="MemberEventArgs.cs" />
-    <Compile Include="MethodEventArgs.cs" />
-    <Compile Include="NameSpaceEventArgs.cs" />
-    <Compile Include="Options.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Extensions\AssemblyExtensions.cs" />
-    <Compile Include="TypeEventArgs.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
-    <Compile Include="FileGenerator.cs" />
-    <Compile Include="Generators\TypeScriptLanguage.cs" />
-    <Compile Include="Visitor.cs" />
+    <Compile Include="ArbitraryDto.cs" />
+    <Compile Include="MyViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="AssembliesToOutput.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>$(ProjectDir)pack.bat</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)TypeWalker\bin\debug"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

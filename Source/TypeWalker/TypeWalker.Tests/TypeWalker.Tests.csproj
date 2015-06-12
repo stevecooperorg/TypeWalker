@@ -61,6 +61,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExampleClassLibrary\ExampleClassLibrary.csproj">
+      <Project>{e03470c7-2aca-4146-81d7-f028bba3e55b}</Project>
+      <Name>ExampleClassLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TypeWalker\TypeWalker.csproj">
       <Project>{4f1178a4-766e-4841-a79c-d1b826d7222c}</Project>
       <Name>TypeWalker</Name>

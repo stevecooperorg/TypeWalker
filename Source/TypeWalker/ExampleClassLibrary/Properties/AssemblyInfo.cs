@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TypeWalker")]
-[assembly: AssemblyDescription("A generator to convert DTOs to TypeScript")]
+[assembly: AssemblyTitle("ExampleClassLibrary")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Steve cooper")]
-[assembly: AssemblyProduct("TypeWalker")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ExampleClassLibrary")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ad8d3565-2864-469a-9b19-2a510b22445d")]
+[assembly: Guid("5a7705e0-5e67-43d2-be54-6f41e40706a9")]
 
 // Version information for an assembly consists of the following four values:
 //
