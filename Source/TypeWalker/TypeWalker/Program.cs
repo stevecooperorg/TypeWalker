@@ -73,8 +73,15 @@ namespace TypeWalker
             string fileContent;
             fileGenerator.TryGenerate(lines, runtime, generator, out fileContent);
 
-            File.WriteAllText(outputFile, fileContent);
-
+            if (!File.Exists(outputFile) || File.ReadAllText(outputFile) != fileContent)
+            {
+                runtime.Log("TypeWalker is writing a new version of " + outputFile);
+                File.WriteAllText(outputFile, fileContent);
+            }
+            else
+            {
+                runtime.Log("TypeWalker output file is up to date: " + outputFile);
+            }
             //runtime.Error("not yet implemented, but running!");
 
         }
