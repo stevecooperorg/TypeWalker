@@ -2,4 +2,22 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
   </PropertyGroup>
+   
+  <!-- Generate TypeScript Resources Configuration -->
+  <PropertyGroup>
+    <GenerateTypeScriptResourcesResourceGeneratorPath>$(MSBuildThisFileDirectory)TypeWalker.exe</GenerateTypeScriptResourcesResourceGeneratorPath>
+    <GenerateTypeScriptResourcesRootDir>$(ProjectDir)../</GenerateTypeScriptResourcesRootDir>
+    <GenerateTypeScriptResourcesBinDir>$(ProjectDir)bin/</GenerateTypeScriptResourcesBinDir>
+  </PropertyGroup>
+    
+  <ItemGroup>
+    <AvailableItemName Include="GenerateTypeScriptResources" />
+  </ItemGroup>
+
+  <!-- Generate Javascript Resources Target -->
+  <Target Name="GenerateTypeScriptResources" BeforeTargets="Build">
+    <Message Text="Running GenerateJavascriptResources target" Importance="high" />
+    <Exec Command="$(GenerateTypeScriptResourcesResourceGeneratorPath) /binDir=&quot;$(GenerateTypeScriptResourcesBinDir)&quot; /configFile=&quot;%(GenerateTypeScriptResources.Identity)&quot;" />
+  </Target>
+
 </Project>
