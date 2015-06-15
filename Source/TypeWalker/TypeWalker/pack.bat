@@ -1,2 +1,5 @@
 del *.nupkg
-nuget pack TypeWalker.csproj -Prop Configuration=Debug
+del Build /S/Q
+xcopy NuGet Build\ /E
+xcopy bin\Debug Build\lib\Net40\
+nuget pack Build/TypeWalker.nuspec

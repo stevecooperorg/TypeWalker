@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>$id$</id>
-    <version>0.0.1-alpha0001</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <id>TypeWalker</id>
+    <version>0.0.1-alpha0002</version>
+    <title>TypeWalker</title>
+    <authors>Steve Cooper</authors>
+    <owners>Steve Cooper</owners>
     <licenseUrl>https://github.com/stevecooperorg/TypeWalker/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/stevecooperorg/TypeWalker</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
+    <description>A generator to convert DTOs to TypeScript</description>
     <releaseNotes>First version</releaseNotes>
     <copyright>Copyright 2014-2015</copyright>
     <tags>TypeScript</tags>

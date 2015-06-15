@@ -74,10 +74,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="NuGet\build\TypeWalker.props" />
-    <None Include="NuGet\build\TypeWalker.targets" />
+    <None Include="NuGet\build\Net40\TypeWalker.props" />
+    <None Include="NuGet\build\Net40\TypeWalker.targets" />
     <None Include="pack.bat" />
-    <None Include="TypeWalker.nuspec" />
+    <None Include="NuGet\TypeWalker.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NuGet\content\" />
