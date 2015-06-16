@@ -20,7 +20,7 @@ namespace NamespaceOfTestClasses
         private DateTime PrivateGetterSetterDate { get; set; }
         public bool? NullableGetterSetterBool { get; set; }
 
-        //public ICollection<ReferencedClass> NavigationArray { get; set; }
+        public ICollection<ReferencedClass> NavigationArray { get; set; }
 
         public string StringField;
 

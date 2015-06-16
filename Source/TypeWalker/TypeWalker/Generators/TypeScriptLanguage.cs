@@ -23,20 +23,36 @@ namespace TypeWalker.Generators
                 return GetTypeInfo(baseType);
             }
 
-            switch (type.FullName)
+            string typescriptName;
+            if (type.IsEnumerableType() && type != typeof(string))
             {
-                case "System.String": return new TypeInfo("string", string.Empty);
-                case "System.Int32": return new TypeInfo("number", string.Empty);
-                case "System.Int64": return new TypeInfo("number", string.Empty);
-                case "System.Int16": return new TypeInfo("number", string.Empty);
-                case "System.Boolean": return new TypeInfo("boolean", string.Empty);
+                return new TypeInfo("Array", string.Empty);
             }
+            else if (TryGetTypeName(type.FullName, out typescriptName)) 
+            {
+                return new TypeInfo(typescriptName, string.Empty);
+            }
+            else
+            {
+                // for now, uses a C# style for anything else
+                string typeName = type.FullName.Replace(type.Namespace + ".", "");
+                var typeReference = new System.CodeDom.CodeTypeReference(typeName);
+                var nameSpace = type.Namespace != "System" ? type.Namespace : "";
+                return new TypeInfo(typeName, nameSpace);
+            }
+        }
 
-            // for now, uses a C# style for anything else
-            string typeName = type.FullName.Replace(type.Namespace + ".", "");
-            var typeReference = new System.CodeDom.CodeTypeReference(typeName);
-            var nameSpace = type.Namespace != "System" ? type.Namespace : "";
-            return new TypeInfo(typeName, nameSpace);
+        private bool TryGetTypeName(string typeFullName, out string typescriptName)
+        {
+            switch (typeFullName)
+            {
+                case "System.String": typescriptName = "string"; return true;
+                case "System.Int32": typescriptName = "number"; return true;
+                case "System.Int64": typescriptName = "number"; return true;
+                case "System.Int16": typescriptName = "number"; return true;
+                case "System.Boolean": typescriptName = "boolean"; return true;
+                default: typescriptName = null; return false;
+            }
         }
     }
 }
