@@ -8,6 +8,10 @@ using TypeWalker.Generators;
 
 namespace NamespaceOfTestClasses
 {
+    public class MyList<T> : List<T>
+    {
+    }
+
     public class BasicClass
     {
         [IgnoreForLanguageGenerator(KnockoutMappingGenerator.Id)]
@@ -15,6 +19,8 @@ namespace NamespaceOfTestClasses
         public int GetterPrivateSetterString { get; private set; }
         private DateTime PrivateGetterSetterDate { get; set; }
         public bool? NullableGetterSetterBool { get; set; }
+
+        //public ICollection<ReferencedClass> NavigationArray { get; set; }
 
         public string StringField;
 
