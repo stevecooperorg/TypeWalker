@@ -194,3 +194,7 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+/Source/TypeWalker/ExampleClassLibrary/ExampleClassLibrary.v2.ncrunchproject
+/Source/TypeWalker/TypeWalker
+/Source/TypeWalker/TypeWalker/TypeWalker.v2.ncrunchproject
+/Source/TypeWalker/TypeWalker.v2.ncrunchsolution
