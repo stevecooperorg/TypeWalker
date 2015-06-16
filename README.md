@@ -56,13 +56,10 @@ At the moment it operates using the command line. You should be able to use it n
 # Command Line Operation
 
     TypeWalker 
-        /binDir=. 
         /configFile=c:\src\mysite\AssembliesToOutput.txt 
         /language=KnockoutMapping 
         /knockoutPrefix=KOGen 
         /outputFile=c:\src\mysite\scripts\typings\mysite.d.ts
-
-`binDir` indicates where binaries are located. So far, I assume TypeWalker is in the bin directory of your website; I'm using reflection to figure out about your types and I think it's more reliable here -- gonna need a bit of work before I'm happy making this more general.
 
 `configFile` is a text file containing lines formatted like so;
 

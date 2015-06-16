@@ -16,13 +16,11 @@ namespace TypeWalker
             var runtime = new ConsoleRuntime();
 
             string configFile = null;
-            string binDir = null;
             string language = null;
             string knockoutPrefix = null;
             string outputFile = null;
 
             var optionSet = new NDesk.Options.OptionSet() {
-                    { "binDir=", "", v => binDir = v },
                     { "language=", "", v => language = v },
                     { "knockoutPrefix=", "", v => knockoutPrefix = v },
                     { "configFile=", "", v => configFile = v },
@@ -37,19 +35,10 @@ namespace TypeWalker
                 return;
             }
 
-            if (!Directory.Exists(binDir))
-            {
-                runtime.Error("bin directory '{0}' does not exist", binDir);
-                return;
-            }
-
-            binDir = Path.GetFullPath(binDir);
-
-            runtime.Log("Generating resources from the bin directory: " + binDir);
+            
             runtime.Log("Reading config file: " + configFile);
 
-            var assemblyLoader = new AssemblyLoader(binDir, runtime);
-            assemblyLoader.WireEvents();
+            var assemblyLoader = new AssemblyLoader(runtime);
 
             LanguageGenerator generator;
 

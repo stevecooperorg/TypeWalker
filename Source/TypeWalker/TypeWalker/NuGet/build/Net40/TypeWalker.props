@@ -17,7 +17,9 @@
   <!-- Generate Javascript Resources Target -->
   <Target Name="GenerateTypeScriptResources" BeforeTargets="Build">
     <Message Text="Running GenerateJavascriptResources target" Importance="high" />
-    <Exec Command="$(GenerateTypeScriptResourcesResourceGeneratorPath) /binDir=&quot;$(GenerateTypeScriptResourcesBinDir)&quot; /configFile=&quot;%(GenerateTypeScriptResources.Identity)&quot;" />
+    <Exec 
+        Command="$(GenerateTypeScriptResourcesResourceGeneratorPath) /binDir=&quot;$(GenerateTypeScriptResourcesBinDir)&quot; /configFile=&quot;%(GenerateTypeScriptResources.Identity)&quot;"
+        WorkingDirectory="$(GenerateTypeScriptResourcesBinDir)" />
   </Target>
 
 </Project>

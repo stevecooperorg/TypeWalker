@@ -43,7 +43,6 @@ namespace TypeWalker.Tests
             // don't want two separate namespaces to duplicate used types;
             var rt = new DebugRuntime();
             var loader = AssemblyLoader.FromExecutingAssembly(rt);
-            loader.WireEvents();
             var fileGenerator = new FileGenerator(loader);
             string actual;
 

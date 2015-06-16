@@ -1,2 +1,2 @@
-﻿ExampleClassLibrary::ExampleClassLibrary
+﻿AITrackRecord.DTOs::AITrackRecord.DTOs
 
