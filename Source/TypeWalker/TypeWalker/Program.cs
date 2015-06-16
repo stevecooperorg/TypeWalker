@@ -56,20 +56,23 @@ namespace TypeWalker
                     runtime.Error("Unknown language: {0}", language);
                     return;
             }
+
             var lines = File.ReadAllLines(configFile);
             var fileGenerator = new FileGenerator(assemblyLoader);
             
             string fileContent;
             fileGenerator.TryGenerate(lines, runtime, generator, out fileContent);
 
-            if (!File.Exists(outputFile) || File.ReadAllText(outputFile) != fileContent)
+            var fullOutputFile = Path.GetFullPath(outputFile);
+
+            if (!File.Exists(fullOutputFile) || File.ReadAllText(fullOutputFile) != fileContent)
             {
-                runtime.Log("TypeWalker is writing a new version of " + outputFile);
-                File.WriteAllText(outputFile, fileContent);
+                runtime.Log("TypeWalker is writing a new version of " + fullOutputFile);
+                File.WriteAllText(fullOutputFile, fileContent);
             }
             else
             {
-                runtime.Log("TypeWalker output file is up to date: " + outputFile);
+                runtime.Log("TypeWalker output file is up to date: " + fullOutputFile);
             }
             //runtime.Error("not yet implemented, but running!");
 

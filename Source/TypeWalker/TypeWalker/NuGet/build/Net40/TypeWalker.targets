@@ -15,6 +15,19 @@ TypeWalker.targets
     <ProjectCapability Include="TypeScript" />
   </ItemGroup>
 
+  <!-- Generate TypeScript Resources Configuration -->
+  <PropertyGroup>
+    <GenerateTypeScriptResourcesResourceGeneratorPath>$(MSBuildThisFileDirectory)../../lib/Net40/TypeWalker.exe</GenerateTypeScriptResourcesResourceGeneratorPath>
+    <GenerateTypeScriptResourcesRootDir>$(ProjectDir)../</GenerateTypeScriptResourcesRootDir>
+    <GenerateTypeScriptResourcesBinDir>$(ProjectDir)bin/</GenerateTypeScriptResourcesBinDir>
+  </PropertyGroup>
+    
+  <!-- Generate Javascript Resources Target -->
+  <Target Name="GenerateTypeScriptResources" BeforeTargets="Build">
+    <Message Text="Running GenerateJavascriptResources target" Importance="high" />
+    <Exec Command="$(GenerateTypeScriptResourcesResourceGeneratorPath) /binDir=&quot;$(GenerateTypeScriptResourcesBinDir)&quot; /configFile=&quot;%(GenerateTypeScriptResources.Identity)&quot;" />
+  </Target>
+
   <Target Name="CompileTypeWalker" Condition="'$(BuildingProject)' != 'false'">
   </Target>
 

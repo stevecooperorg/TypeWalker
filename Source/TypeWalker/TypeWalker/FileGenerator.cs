@@ -33,11 +33,16 @@ namespace TypeWalker
                 var assemblyName = parts[0];
                 var namespaceName = parts[1];
                 var assembly = assemblyLoader.Load(assemblyName);
-                
+
+                runtime.Log(string.Format("Generating from assembly {0}, namespace {1}", assemblyName, namespaceName ));
+
                 types = assembly
                     .GetTypes()
+                    .Where(t => !t.IsAbstract && !t.IsInterface && !t.IsGenericTypeDefinition && !t.IsGenericType)
                     .Where(t => t.Namespace.StartsWith(namespaceName))
                     .ToArray();
+
+                runtime.Log("Loaded " + types.Length.ToString() + " types");
 
                 return true;
             }
@@ -80,6 +85,7 @@ namespace TypeWalker
                     }
                 }
 
+                runtime.Log("Loaded a a total of " + allTypes.Count + " types.");
                 result = generator.Generate(allTypes);
                 return true;
             }
