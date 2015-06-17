@@ -141,12 +141,13 @@ namespace TypeWalker
 
         private MemberEventArgs GetMemberEventArgs(MemberInfo member, Type type)
         {
+            var typeInfo = this.language.GetTypeInfo(type); 
             var args = new MemberEventArgs()
             {
                 MemberName = member.Name,
-                MemberTypeName = TypeName(type),
-                MemberTypeFullName = FullName(type),
-                MemberTypeNameSpaceName = NameSpace(type),
+                MemberTypeName = typeInfo.Name,
+                MemberTypeFullName = typeInfo.FullName,
+                MemberTypeNameSpaceName = typeInfo.NameSpaceName,
                 IgnoredByGenerators = this.IgnoreLanguages(member)
             };
 
@@ -158,17 +159,21 @@ namespace TypeWalker
             var args = GetMemberEventArgs(member, member.PropertyType);
 
             if (MemberVisiting != null) { MemberVisiting(this, args); }
-
-            if (ShouldVisit(member.PropertyType))
-            {
-                this.RegisterType(member.PropertyType);
-            }
+           
+            this.RegisterType(member.PropertyType);
 
             if (MemberVisited != null) { MemberVisited(this, args); }
         }
 
         private void RegisterType(Type type)
         {
+            Type collectionOf;
+            if (type.IsGenericCollectionType(out collectionOf))
+            {
+                RegisterType(collectionOf);
+                return;
+            }
+
             if (!ShouldVisit(type))
             {
                 return;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TypeWalker.Extensions;
 
 namespace TypeWalker.Generators
@@ -15,25 +16,37 @@ namespace TypeWalker.Generators
                 .CreateProvider("CSharp");
         }
 
+        private Dictionary<Type, TypeInfo> cache = new Dictionary<Type, TypeInfo>();
+
         public override TypeInfo GetTypeInfo(Type type)
         {
+            TypeInfo result;
+            if (!cache.TryGetValue(type, out result))
+            {
+                var n = type.Name;
+                result = GetTypeInfoInner(type);
+                cache[type] = result;
+            }
+            return result;
+        }
+
+        public TypeInfo GetTypeInfoInner(Type type)
+        {
+            string tn = type.Name;
+
             if (type.IsNullableType())
             {
                 var baseType = type.GenericTypeArguments[0];
                 return GetTypeInfo(baseType);
             }
 
+            Type genericElementType = null;
             string typescriptName;
-            if (type.IsArrayType())
+            if (type.IsGenericCollectionType(out genericElementType))
             {
-                var elementType = type.GetElementType();
-                var typeInfo = GetTypeInfo(elementType);
+                var typeInfo = GetTypeInfo(genericElementType);
                 var arrayResult = new TypeInfo(typeInfo.Name + "[]", typeInfo.NameSpaceName);
                 return arrayResult;
-            }
-            else if (type.IsGenericEnumerableType() && type != typeof(string))
-            {
-                return new TypeInfo("generic[]", string.Empty);
             }
             else if (type.IsDictionaryType())
             {
@@ -42,10 +55,6 @@ namespace TypeWalker.Generators
             else if (type.IsEnum)
             {
                 return new TypeInfo("number", string.Empty);
-            }
-            else if (type.IsEnumerableType() && type != typeof(string))
-            {
-                return new TypeInfo("any[]", string.Empty);
             }
             else if (TryGetTypeName(type.FullName, out typescriptName)) 
             {
@@ -70,8 +79,15 @@ namespace TypeWalker.Generators
                 case "System.Int32": typescriptName = "number"; return true;
                 case "System.Int64": typescriptName = "number"; return true;
                 case "System.Int16": typescriptName = "number"; return true;
+                case "System.UInt32": typescriptName = "number"; return true;
+                case "System.UInt64": typescriptName = "number"; return true;
+                case "System.UInt16": typescriptName = "number"; return true;
+                case "System.Decimal": typescriptName = "number"; return true;
+                case "System.Single": typescriptName = "number"; return true;
+                case "System.Double": typescriptName = "number"; return true;
                 case "System.Boolean": typescriptName = "boolean"; return true;
                 case "System.DateTime": typescriptName = "Date"; return true;
+                case "System.Guid": typescriptName = "string"; return true;
                 default: typescriptName = null; return false;
             }
         }

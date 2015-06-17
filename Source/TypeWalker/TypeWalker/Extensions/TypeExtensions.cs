@@ -10,19 +10,21 @@ namespace TypeWalker.Extensions
 {
     internal static class TypeExtensions
     {
-        public static Func<Type, bool> IsExportableType
+        public static bool IsExportableType(Type t)
         {
-            get
-            {
-                return t => 
-                 
-                    !t.IsValueType &&
+            var n = t.Name;
+
+            return
+                    //!t.IsValueType &&
+                    !t.IsEnum &&
                     !(t.Assembly.FullName == typeof(string).Assembly.FullName) &&
                     !(t.Assembly.FullName == typeof(object).Assembly.FullName) &&
                     !(t == typeof(object)) &&
-                    !t.IsGenericTypeDefinition && 
+                    !t.IsGenericTypeDefinition &&
+                    !t.ContainsGenericParameters &&
+                    !t.Name.Contains("<") &&
                     !t.IsGenericType;
-            }
+            
         }
 
         public static bool IsNullableType(this Type type)
@@ -30,44 +32,61 @@ namespace TypeWalker.Extensions
             return type.IsGenericType && (type.GetGenericTypeDefinition().Equals(typeof(Nullable<>)));
         }
 
-        public static bool IsEnumerableType(this Type type)
+        public static bool IsDictionaryType(this Type type)
         {
-            return type.GetInterfaces().Contains(typeof(IEnumerable));
+            var acceptableTypes = new[] {
+                typeof(IDictionary<,>),
+                typeof(Dictionary<,>),    
+                typeof(KeyValuePair<,>),
+            };
+            Type collectionOf;
+            return IsGenericType(type, acceptableTypes, out collectionOf);
         }
 
-        public static bool IsGenericEnumerableType(this Type type)
+
+
+        public static bool IsGenericCollectionType(this Type type, out Type collectionOf)
         {
-            return type.GetInterfaces().Contains(typeof(IEnumerable<>));
+            if (type.IsArrayType())
+            {
+                collectionOf = type.GetElementType();
+                return true;
+            }
+
+            var acceptableTypes = new[] {
+                typeof(ICollection<>),
+                typeof(IEnumerable<>),
+                typeof(IList<>),
+                typeof(List<>),
+                typeof(System.Collections.ObjectModel.ReadOnlyCollection<>),
+            };
+
+            return IsGenericType(type, acceptableTypes, out collectionOf);
+        }
+
+
+        private static bool IsGenericType(this Type type, Type[] acceptableTypes, out Type collectionOf)
+        {
+            if (!type.IsGenericType)
+            {
+                collectionOf = null;
+                return false;
+            }
+
+            var genericType = type.GetGenericTypeDefinition();
+            if (acceptableTypes.Contains(genericType))
+            {
+                collectionOf = type.GetGenericArguments()[0];
+                return true;
+            }
+
+            collectionOf = null;
+            return false;
         }
 
         public static bool IsArrayType(this Type type)
         {
-            return type.IsArray;//.GetInterfaces().Contains(typeof(Array));
-        }
-
-        public static bool IsCollectionType(this Type type)
-        {
-            return type.GetInterfaces().Contains(typeof(ICollection));
-        }
-
-        public static bool IsListType(this Type type)
-        {
-            return type.GetInterfaces().Contains(typeof(IList));
-        }
-
-        public static bool IsListOrDictionaryType(this Type type)
-        {
-            return type.IsListType() || type.IsDictionaryType();
-        }
-
-        public static bool IsDictionaryType(this Type type)
-        {
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IDictionary<,>))
-                return true;
-
-            var genericInterfaces = type.GetInterfaces().Where(t => t.IsGenericType);
-            var baseDefinitions = genericInterfaces.Select(t => t.GetGenericTypeDefinition());
-            return baseDefinitions.Any(t => t == typeof(IDictionary<,>));
+            return type.IsArray;
         }
 
     }
