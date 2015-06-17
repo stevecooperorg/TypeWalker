@@ -20,7 +20,7 @@ namespace TypeWalker
             this.assemblyLoader = assemblyLoader;
         }
 
-        private bool TryLoadTypes(string assemblyNameAndNamespaceReference, IRuntime runtime, out Type[] types)
+        private bool TryLoadTypes(string filePath, int lineNumber, string assemblyNameAndNamespaceReference, IRuntime runtime, out Type[] types)
         {
             if (string.IsNullOrWhiteSpace(assemblyNameAndNamespaceReference))
             {
@@ -30,7 +30,15 @@ namespace TypeWalker
 
             try
             {
+                runtime.Log("Parsing " + assemblyNameAndNamespaceReference);
                 var parts = Regex.Split(assemblyNameAndNamespaceReference, "::");
+                if (parts.Length != 2)
+                {
+                    var error = string.Format("Unrecognised format: use AssemblyName::Namespace) in '{0}'", assemblyNameAndNamespaceReference);
+                    runtime.ErrorInFile(filePath, lineNumber, error);
+                    System.Environment.Exit(-1);
+                }
+
                 var assemblyName = parts[0];
                 var namespaceName = parts[1];
                 var assembly = assemblyLoader.Load(assemblyName);
@@ -66,16 +74,18 @@ namespace TypeWalker
             }
         }
 
-        public bool TryGenerate(string[] assemblyNames, IRuntime runtime, LanguageGenerator[] generators, out string result)
+        public bool TryGenerate(string filePath, string[] assemblyNames, IRuntime runtime, LanguageGenerator[] generators, out string result)
         {
             try
             {
                 bool loadFailed = false;
                 List<Type> allTypes = new List<Type>();
+                int lineNumber = 0; 
                 foreach (var assemblyName in assemblyNames)
                 {
+                    lineNumber++;
                     Type[] types;
-                    if (TryLoadTypes(assemblyName, runtime, out types))
+                    if (TryLoadTypes(filePath, lineNumber, assemblyName, runtime, out types))
                     {
                         allTypes.AddRange(types);
                     }

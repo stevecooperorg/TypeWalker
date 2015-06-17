@@ -23,5 +23,11 @@ namespace TypeWalker
         {
             Debug.WriteLine("Info: " + message);
         }
+
+
+        public void ErrorInFile(string file, int lineNumber, string message, params object[] args)
+        {
+            this.Error(string.Format("{0} {1} {2}", file, lineNumber, message), args);
+        }
     }
 }

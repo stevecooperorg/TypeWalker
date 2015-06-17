@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\AINewWorld\Main\Source\AITrackRecord\bin\</OutputPath>
+    <OutputPath>..\..\..\..\AINewWorld\Main\Source\packages\TypeWalker.0.0.1-alpha0006\lib\Net40\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -88,7 +88,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>REM $(ProjectDir)pack.bat</PostBuildEvent>
+    <PostBuildEvent>$(ProjectDir)pack.bat "$(ProjectDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

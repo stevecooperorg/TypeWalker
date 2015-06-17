@@ -46,7 +46,7 @@ namespace TypeWalker
             var fileGenerator = new FileGenerator(assemblyLoader);
             
             string fileContent;
-            fileGenerator.TryGenerate(lines, runtime, generators, out fileContent);
+            fileGenerator.TryGenerate(configFile, lines, runtime, generators, out fileContent);
 
             var fullOutputFile = Path.GetFullPath(outputFile);
 
@@ -59,8 +59,6 @@ namespace TypeWalker
             {
                 runtime.Log("TypeWalker output file is up to date: " + fullOutputFile);
             }
-            //runtime.Error("not yet implemented, but running!");
-
         }
 
         private static LanguageGenerator GetGenerator(string language, string knockoutPrefix, IRuntime runtime)

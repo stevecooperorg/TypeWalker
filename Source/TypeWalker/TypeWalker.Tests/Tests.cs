@@ -56,7 +56,7 @@ namespace TypeWalker.Tests
                 Console.WriteLine(root);
             }
 
-            fileGenerator.TryGenerate(roots, rt, new LanguageGenerator[] { new TypeScriptGenerator() }, out actual);
+            fileGenerator.TryGenerate("test file", roots, rt, new LanguageGenerator[] { new TypeScriptGenerator() }, out actual);
             Assert.IsNotNull(actual, "Doesn't look like it generated");
             StringAssert.HaveTrimmedContent(Results.Resources.FileGeneratorResults, actual);
         }

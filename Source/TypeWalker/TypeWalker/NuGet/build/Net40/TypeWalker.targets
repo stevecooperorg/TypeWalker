@@ -11,21 +11,19 @@ TypeWalker.targets
       CompileTypeWalker;
     </CompileDependsOn>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectCapability Include="TypeScript" />
-  </ItemGroup>
-
+  
   <!-- Generate TypeScript Resources Configuration -->
   <PropertyGroup>
-    <GenerateTypeScriptResourcesResourceGeneratorPath>$(MSBuildThisFileDirectory)../../lib/Net40/TypeWalker.exe</GenerateTypeScriptResourcesResourceGeneratorPath>
-    <GenerateTypeScriptResourcesRootDir>$(ProjectDir)../</GenerateTypeScriptResourcesRootDir>
-    <GenerateTypeScriptResourcesBinDir>$(ProjectDir)bin/</GenerateTypeScriptResourcesBinDir>
+    <GenerateTypeScriptResourcesResourceGeneratorPath>$(ProjectDir)bin\TypeWalker.exe</GenerateTypeScriptResourcesResourceGeneratorPath>
+    <GenerateTypeScriptOutputFile>c:\temp\ai2.d.ts</GenerateTypeScriptOutputFile>  
   </PropertyGroup>
     
   <!-- Generate Javascript Resources Target -->
   <Target Name="GenerateTypeScriptResources" BeforeTargets="Build">
     <Message Text="Running GenerateJavascriptResources target" Importance="high" />
-    <Exec Command="$(GenerateTypeScriptResourcesResourceGeneratorPath) /binDir=&quot;$(GenerateTypeScriptResourcesBinDir)&quot; /configFile=&quot;%(GenerateTypeScriptResources.Identity)&quot;" />
+    <Exec 
+        Command="$(GenerateTypeScriptResourcesResourceGeneratorPath) /binDir=&quot;$(GenerateTypeScriptResourcesResourceGeneratorPath)&quot; /configFile=&quot;$(ProjectDir)%(GenerateTypeScriptResources.Identity)&quot; /language=&quot;TypeScript&quot; /outputFile=&quot;$(GenerateTypeScriptOutputFile)&quot;"
+    />
   </Target>
 
   <Target Name="CompileTypeWalker" Condition="'$(BuildingProject)' != 'false'">

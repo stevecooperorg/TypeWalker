@@ -1,3 +1,4 @@
+cd "%1"
 del *.nupkg
 del Build /S/Q
 xcopy NuGet Build\ /E

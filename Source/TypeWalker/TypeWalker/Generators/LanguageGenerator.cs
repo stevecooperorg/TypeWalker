@@ -61,13 +61,9 @@ namespace TypeWalker.Generators
                 };
             };
 
-            Console.WriteLine("Visiting ");
-
             visitor.Visit(startingTypes, this.language);
 
             var languageOutput = trace.ToString().Trim();
-
-            Console.WriteLine("Done: " + languageOutput);
 
             return languageOutput;
         }
