@@ -74,4 +74,18 @@ So, pairs of assembly names (without .dll extension) and a namespace within that
 `outputFile` is just the file where the file should be written. Usually a `.d.ts` TypeScript definition file.
 
 
-    
+# NuGet Integration
+
+There's rudimentary NuGet support;
+
+    Install-Package TypeWalker -Pre
+
+Run this in your web app. This will install the binary and modify the .csproj file with the appropriate MSBuild targets. You now need to save the project, close and re-open the solution.
+
+Next, you need to write a file containing the assembly names and namespaces to export -- see above under the `configFile` documentation. Add this file to the project, then edit the properties of the file. Change the Build Action to `GenerateTypeScriptResources`.
+
+Save, possibly close and re-open again, then start building. It'll generate your output, switching the extension to `.d.ts`. For example;
+
+    Scripts/TypeWalker.txt
+    Scripts/TypeWalker.d.ts
+
