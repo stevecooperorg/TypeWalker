@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TypeWalker.Extensions;
 using TypeWalker.Generators;
 
 namespace TypeWalker
@@ -63,6 +64,7 @@ namespace TypeWalker
             var nsArgs = new NameSpaceEventArgs
             {
                 NameSpaceName = NameSpace(type),
+                Comment = Comment(type)
             };
 
             var args = new TypeEventArgs() 
@@ -107,6 +109,11 @@ namespace TypeWalker
             }
         }
 
+        private string Comment(Type type)
+        {
+            return string.Format("{1}.{0}", type.Name, type.Namespace);
+        }
+
         private string NameSpace(Type type)
         {
             return this.language.GetTypeInfo(type).NameSpaceName;
@@ -121,17 +128,15 @@ namespace TypeWalker
 
             if (MemberVisiting != null) { MemberVisiting(this, args); }
 
-            if (ShouldVisit(member.FieldType))
-            {
-                this.RegisterType(member.FieldType);
-            }
+            this.RegisterType(member.FieldType);
+
 
             if (MemberVisited != null) { MemberVisited(this, args); }
         }
 
         private bool ShouldVisit(Type type)
         {
-            return type.IsValueType == false && type != typeof(string);
+            return TypeExtensions.IsExportableType(type);
         }
 
         private MemberEventArgs GetMemberEventArgs(MemberInfo member, Type type)
@@ -164,7 +169,27 @@ namespace TypeWalker
 
         private void RegisterType(Type type)
         {
-            if (!this.visited.Contains(type))
+            if (!ShouldVisit(type))
+            {
+                return;
+            }
+            
+            AddIfMissing(type);
+
+            foreach (var i in type.GetInterfaces())
+            {
+                RegisterType(i);
+            }
+
+            if (type.BaseType != null)
+            {
+                RegisterType(type.BaseType);
+            }
+        }
+
+        private void AddIfMissing(Type type)
+        {
+            if (!this.visited.Contains(type) && !this.toVisit.Contains(type))
             {
                 this.toVisit.Enqueue(type);
             }

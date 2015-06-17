@@ -18,7 +18,7 @@ namespace TypeWalker.Generators
         {
             get
             {
-                return "declare module {NameSpaceName} {{" + Environment.NewLine;
+                return "/* {Comment} */" + Environment.NewLine + "declare module {NameSpaceName} {{" + Environment.NewLine;
             }
         }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using TypeWalker.Extensions;
 using TypeWalker.Generators;
 
 namespace TypeWalker
@@ -38,7 +39,7 @@ namespace TypeWalker
 
                 types = assembly
                     .GetTypes()
-                    .Where(t => !t.IsAbstract && !t.IsInterface && !t.IsGenericTypeDefinition && !t.IsGenericType)
+                    .Where(TypeExtensions.IsExportableType)
                     .Where(t => t.Namespace.StartsWith(namespaceName))
                     .ToArray();
 
@@ -65,7 +66,7 @@ namespace TypeWalker
             }
         }
 
-        public bool TryGenerate(string[] assemblyNames, IRuntime runtime, LanguageGenerator generator, out string result)
+        public bool TryGenerate(string[] assemblyNames, IRuntime runtime, LanguageGenerator[] generators, out string result)
         {
             try
             {
@@ -86,7 +87,15 @@ namespace TypeWalker
                 }
 
                 runtime.Log("Loaded a a total of " + allTypes.Count + " types.");
-                result = generator.Generate(allTypes);
+
+                var sb = new StringBuilder();
+                foreach (var generator in generators)
+                {
+                    var thisResult = generator.Generate(allTypes);
+                    sb.Append(thisResult).AppendLine();
+                }
+
+                result = sb.ToString();
                 return true;
             }
             catch

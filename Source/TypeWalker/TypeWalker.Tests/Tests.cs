@@ -17,7 +17,7 @@ namespace TypeWalker.Tests
             var generator = new TypeScriptGenerator();
             var actual = generator.Generate(new List<Type> { typeof(NamespaceOfTestClasses.BasicClass) });
             var expected = Results.Resources.TypeScriptResult;
-            StringAssert.AreEqual(expected, actual);
+            StringAssert.HaveTrimmedContent(expected, actual);
         }
 
         [TestMethod]
@@ -26,7 +26,7 @@ namespace TypeWalker.Tests
             var generator = new KnockoutMappingGenerator("KOGenerated");
             var actual = generator.Generate(new List<Type> { typeof(NamespaceOfTestClasses.BasicClass) });
             var expected = Results.Resources.KnockoutResult;
-            StringAssert.AreEqual(expected, actual);
+            StringAssert.HaveTrimmedContent(expected, actual);
         }
 
         private string ReferenceToClass(Type t)
@@ -56,9 +56,9 @@ namespace TypeWalker.Tests
                 Console.WriteLine(root);
             }
 
-            fileGenerator.TryGenerate(roots, rt, new TypeScriptGenerator(), out actual);
+            fileGenerator.TryGenerate(roots, rt, new LanguageGenerator[] { new TypeScriptGenerator() }, out actual);
             Assert.IsNotNull(actual, "Doesn't look like it generated");
-            StringAssert.AreEqual(Results.Resources.FileGeneratorResults, actual);
+            StringAssert.HaveTrimmedContent(Results.Resources.FileGeneratorResults, actual);
         }
     }
 }

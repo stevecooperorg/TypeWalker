@@ -1,9 +1,12 @@
-﻿declare module KOGenerated.NamespaceOfTestClasses {
+﻿/* NamespaceOfTestClasses.BasicClass */
+declare module KOGenerated.NamespaceOfTestClasses {
     export interface BasicClass {
         GetterPrivateSetterString(): number;
         GetterPrivateSetterString(value: number): void;
         NullableGetterSetterBool(): boolean;
         NullableGetterSetterBool(value: boolean): void;
+        NavigationArray(): ];
+        NavigationArray(value: any[]): void;
         NavigationProperty(): KOGenerated.NamespaceOfTestClasses.ReferencedClass;
         NavigationProperty(value: KOGenerated.NamespaceOfTestClasses.ReferencedClass): void;
         NavigationProperty2(): KOGenerated.NamespaceOfTestClasses.ReferencedClass;
@@ -13,6 +16,7 @@
     }
 }
 
+/* NamespaceOfTestClasses.ReferencedClass */
 declare module KOGenerated.NamespaceOfTestClasses {
     export interface ReferencedClass {
         SelfReference(): KOGenerated.NamespaceOfTestClasses.ReferencedClass;

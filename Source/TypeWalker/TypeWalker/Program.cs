@@ -16,12 +16,12 @@ namespace TypeWalker
             var runtime = new ConsoleRuntime();
 
             string configFile = null;
-            string language = null;
+            var languages = new List<String>();
             string knockoutPrefix = null;
             string outputFile = null;
 
             var optionSet = new NDesk.Options.OptionSet() {
-                    { "language=", "", v => language = v },
+                    { "language=", "", v => languages.Add(v) },
                     { "knockoutPrefix=", "", v => knockoutPrefix = v },
                     { "configFile=", "", v => configFile = v },
                     { "outputFile=", "", v => outputFile = v }
@@ -40,28 +40,13 @@ namespace TypeWalker
 
             var assemblyLoader = new AssemblyLoader(runtime);
 
-            LanguageGenerator generator;
-
-            switch (language)
-            {
-                case TypeScriptGenerator.Id:
-                    generator = new TypeScriptGenerator();
-                    break;
-
-                case KnockoutMappingGenerator.Id:
-                    generator = new KnockoutMappingGenerator(knockoutPrefix);
-                    break;
-
-                default:
-                    runtime.Error("Unknown language: {0}", language);
-                    return;
-            }
+            var generators = languages.Select(language => GetGenerator(language, knockoutPrefix, runtime)).ToArray();
 
             var lines = File.ReadAllLines(configFile);
             var fileGenerator = new FileGenerator(assemblyLoader);
             
             string fileContent;
-            fileGenerator.TryGenerate(lines, runtime, generator, out fileContent);
+            fileGenerator.TryGenerate(lines, runtime, generators, out fileContent);
 
             var fullOutputFile = Path.GetFullPath(outputFile);
 
@@ -76,6 +61,23 @@ namespace TypeWalker
             }
             //runtime.Error("not yet implemented, but running!");
 
+        }
+
+        private static LanguageGenerator GetGenerator(string language, string knockoutPrefix, IRuntime runtime)
+        {
+                switch (language)
+                {
+                    case TypeScriptGenerator.Id:
+                        return new TypeScriptGenerator();
+                       
+                    case KnockoutMappingGenerator.Id:
+                        return new KnockoutMappingGenerator(knockoutPrefix);
+                       
+                    default:
+                        runtime.Error("Unknown language: {0}", language);
+                        System.Environment.Exit(-1);
+                        return (LanguageGenerator)null;
+            }       
         }
     }
 }

@@ -24,9 +24,28 @@ namespace TypeWalker.Generators
             }
 
             string typescriptName;
-            if (type.IsEnumerableType() && type != typeof(string))
+            if (type.IsArrayType())
             {
-                return new TypeInfo("Array", string.Empty);
+                var elementType = type.GetElementType();
+                var typeInfo = GetTypeInfo(elementType);
+                var arrayResult = new TypeInfo(typeInfo.Name + "[]", typeInfo.NameSpaceName);
+                return arrayResult;
+            }
+            else if (type.IsGenericEnumerableType() && type != typeof(string))
+            {
+                return new TypeInfo("generic[]", string.Empty);
+            }
+            else if (type.IsDictionaryType())
+            {
+                return new TypeInfo("any", string.Empty);
+            }
+            else if (type.IsEnum)
+            {
+                return new TypeInfo("number", string.Empty);
+            }
+            else if (type.IsEnumerableType() && type != typeof(string))
+            {
+                return new TypeInfo("any[]", string.Empty);
             }
             else if (TryGetTypeName(type.FullName, out typescriptName)) 
             {
@@ -47,10 +66,12 @@ namespace TypeWalker.Generators
             switch (typeFullName)
             {
                 case "System.String": typescriptName = "string"; return true;
+                case "System.Byte": typescriptName = "string"; return true;
                 case "System.Int32": typescriptName = "number"; return true;
                 case "System.Int64": typescriptName = "number"; return true;
                 case "System.Int16": typescriptName = "number"; return true;
                 case "System.Boolean": typescriptName = "boolean"; return true;
+                case "System.DateTime": typescriptName = "Date"; return true;
                 default: typescriptName = null; return false;
             }
         }
