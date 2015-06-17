@@ -30,6 +30,8 @@ namespace TypeWalker.Generators
             return result;
         }
 
+        private TypeInfo any = new TypeInfo("any", string.Empty);
+
         public TypeInfo GetTypeInfoInner(Type type)
         {
             string tn = type.Name;
@@ -42,7 +44,12 @@ namespace TypeWalker.Generators
 
             Type genericElementType = null;
             string typescriptName;
-            if (type.IsGenericCollectionType(out genericElementType))
+
+            if (TryGetTypeName(type.FullName, out typescriptName))
+            {
+                return new TypeInfo(typescriptName, string.Empty);
+            }
+            else if (type.IsGenericCollectionType(out genericElementType))
             {
                 var typeInfo = GetTypeInfo(genericElementType);
                 var arrayResult = new TypeInfo(typeInfo.Name + "[]", typeInfo.NameSpaceName);
@@ -50,16 +57,19 @@ namespace TypeWalker.Generators
             }
             else if (type.IsDictionaryType())
             {
-                return new TypeInfo("any", string.Empty);
+                return any;
             }
             else if (type.IsEnum)
             {
                 return new TypeInfo("number", string.Empty);
             }
-            else if (TryGetTypeName(type.FullName, out typescriptName)) 
+
+            //*
+            else if (!type.IsExportableType())
             {
-                return new TypeInfo(typescriptName, string.Empty);
+                return any;
             }
+            //*/
             else
             {
                 // for now, uses a C# style for anything else

@@ -167,6 +167,13 @@ namespace TypeWalker
 
         private void RegisterType(Type type)
         {
+            if (type.IsNullableType())
+            {
+                var baseType = type.GenericTypeArguments[0];
+                RegisterType(baseType);
+                return;
+            }
+
             Type collectionOf;
             if (type.IsGenericCollectionType(out collectionOf))
             {

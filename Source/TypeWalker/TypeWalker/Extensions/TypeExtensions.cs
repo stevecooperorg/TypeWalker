@@ -10,7 +10,7 @@ namespace TypeWalker.Extensions
 {
     internal static class TypeExtensions
     {
-        public static bool IsExportableType(Type t)
+        public static bool IsExportableType(this Type t)
         {
             var n = t.Name;
 
