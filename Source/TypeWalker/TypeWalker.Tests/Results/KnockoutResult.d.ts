@@ -5,8 +5,8 @@ declare module KOGenerated.NamespaceOfTestClasses {
         GetterPrivateSetterString(value: number): void;
         NullableGetterSetterBool(): boolean;
         NullableGetterSetterBool(value: boolean): void;
-        NavigationArray(): ];
-        NavigationArray(value: any[]): void;
+        NavigationArray(): KOGenerated.NamespaceOfTestClasses.ReferencedClass[];
+        NavigationArray(value: KOGenerated.NamespaceOfTestClasses.ReferencedClass[]): void;
         NavigationProperty(): KOGenerated.NamespaceOfTestClasses.ReferencedClass;
         NavigationProperty(value: KOGenerated.NamespaceOfTestClasses.ReferencedClass): void;
         NavigationProperty2(): KOGenerated.NamespaceOfTestClasses.ReferencedClass;

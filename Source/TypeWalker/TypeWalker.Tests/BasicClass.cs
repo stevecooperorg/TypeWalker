@@ -8,6 +8,7 @@ using TypeWalker.Generators;
 
 namespace NamespaceOfTestClasses
 {
+    // we don't see this because it's generic and we'll only ever export fully-instantiated
     public class MyList<T> : List<T>
     {
     }
