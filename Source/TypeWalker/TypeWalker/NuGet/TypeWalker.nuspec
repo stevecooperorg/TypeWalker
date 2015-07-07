@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>TypeWalker</id>
-    <version>0.0.1-alpha0007</version>
+    <version>0.0.1-alpha0009</version>
     <title>TypeWalker</title>
     <authors>Steve Cooper</authors>
     <owners>Steve Cooper</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/stevecooperorg/TypeWalker</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A generator to convert DTOs to TypeScript</description>
-    <releaseNotes>Getting there!</releaseNotes>
+    <releaseNotes>Hopefully fixed a problem with unnecessary bindir variable</releaseNotes>
     <copyright>Copyright 2014-2015</copyright>
     <tags>TypeScript</tags>
   </metadata>
