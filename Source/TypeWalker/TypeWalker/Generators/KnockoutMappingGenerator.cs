@@ -20,11 +20,12 @@ namespace TypeWalker.Generators
             public override TypeInfo GetTypeInfo(Type type)
             {
                 var original = this.typescript.GetTypeInfo(type);
-                var info = new TypeInfo(original.Name, original.NameSpaceName);
-                if (!string.IsNullOrWhiteSpace(info.NameSpaceName))
-                {
-                    info.NameSpaceName = this.namespacePrefix + "." + info.NameSpaceName;
-                }
+
+                var correctNamespace = string.IsNullOrWhiteSpace(original.NameSpaceName) 
+                    ? original.NameSpaceName 
+                    : this.namespacePrefix + "." + original.NameSpaceName;
+
+                var info = new TypeInfo(original.Name, correctNamespace);
 
                 return info;
             }
