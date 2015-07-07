@@ -15,7 +15,7 @@ namespace TypeWalker.Tests
         public void TypescriptGenerator_GeneratesWorkingTypescript()
         {
             var generator = new TypeScriptGenerator();
-            var actual = generator.Generate(new List<Type> { typeof(NamespaceOfTestClasses.BasicClass) });
+            var actual = generator.Generate(new List<Type> { typeof(NamespaceOfTestClasses.Subclass) });
             var expected = Results.Resources.TypeScriptResult;
             StringAssert.HaveTrimmedContent(expected, actual);
         }
@@ -24,7 +24,7 @@ namespace TypeWalker.Tests
         public void KnockoutMappingGenerator_GeneratesWorkingTypescript()
         {
             var generator = new KnockoutMappingGenerator("KOGenerated");
-            var actual = generator.Generate(new List<Type> { typeof(NamespaceOfTestClasses.BasicClass) });
+            var actual = generator.Generate(new List<Type> { typeof(NamespaceOfTestClasses.Subclass) });
             var expected = Results.Resources.KnockoutResult;
             StringAssert.HaveTrimmedContent(expected, actual);
         }

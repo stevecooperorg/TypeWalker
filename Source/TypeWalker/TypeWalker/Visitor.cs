@@ -56,22 +56,33 @@ namespace TypeWalker
             return attributeNames;
         }
 
+        private TypeEventArgs GetTypeEventArgs(Type type)
+        {
+            var args = new TypeEventArgs()
+            {
+                TypeName = TypeName(type),
+                NameSpaceName = NameSpace(type)
+            };
+
+            if (type.BaseType != null && this.ShouldVisit(type.BaseType))
+            {
+                args.BaseTypeInfo = GetTypeEventArgs(type.BaseType);
+            }
+
+            return args;
+        }
+
         private void VisitType(Type type)
         {
             this.visited.Add(type);
 
-           
             var nsArgs = new NameSpaceEventArgs
             {
                 NameSpaceName = NameSpace(type),
                 Comment = Comment(type)
             };
 
-            var args = new TypeEventArgs() 
-            { 
-                TypeName = TypeName(type),
-                NameSpaceName = NameSpace(type)
-            };
+            var typeArgs = GetTypeEventArgs(type);
 
             if (NameSpaceVisiting != null)
             {
@@ -80,27 +91,27 @@ namespace TypeWalker
 
             if (TypeVisiting != null)
             {
-                TypeVisiting(this, args); 
+                TypeVisiting(this, typeArgs); 
             }
 
             foreach (var property in type.GetProperties())
             {
-                VisitProperty(property);
+                VisitProperty(property, type);
             }
 
             foreach (var field in type.GetFields())
             {
-                VisitField(field);
+                VisitField(field, type);
             } 
             
             foreach (var member in type.GetMethods())
             {
-                VisitMethod(member);
+                VisitMethod(member, type);
             }
 
             if (TypeVisited != null) 
             {
-                TypeVisited(this, args); 
+                TypeVisited(this, typeArgs); 
             }
 
             if (NameSpaceVisited != null)
@@ -122,9 +133,9 @@ namespace TypeWalker
         {
             return this.language.GetTypeInfo(type).FullName;
         }
-        private void VisitField(FieldInfo member)
+        private void VisitField(FieldInfo member, Type visitingType)
         {
-            var args = GetMemberEventArgs(member, member.FieldType);
+            var args = GetMemberEventArgs(member, member.FieldType, visitingType);
 
             if (MemberVisiting != null) { MemberVisiting(this, args); }
 
@@ -139,24 +150,26 @@ namespace TypeWalker
             return TypeExtensions.IsExportableType(type);
         }
 
-        private MemberEventArgs GetMemberEventArgs(MemberInfo member, Type type)
+        private MemberEventArgs GetMemberEventArgs(MemberInfo member, Type memberReturnType, Type visitingType)
         {
-            var typeInfo = this.language.GetTypeInfo(type); 
+            var typeInfo = this.language.GetTypeInfo(memberReturnType);
+            var isOwnProperty = member.DeclaringType == visitingType;
             var args = new MemberEventArgs()
             {
                 MemberName = member.Name,
                 MemberTypeName = typeInfo.Name,
                 MemberTypeFullName = typeInfo.FullName,
                 MemberTypeNameSpaceName = typeInfo.NameSpaceName,
-                IgnoredByGenerators = this.IgnoreLanguages(member)
+                IgnoredByGenerators = this.IgnoreLanguages(member),
+                IsOwnProperty = isOwnProperty
             };
 
             return args; 
         }
 
-        private void VisitProperty(PropertyInfo member)
+        private void VisitProperty(PropertyInfo member, Type visitingType)
         {
-            var args = GetMemberEventArgs(member, member.PropertyType);
+            var args = GetMemberEventArgs(member, member.PropertyType, visitingType);
 
             if (MemberVisiting != null) { MemberVisiting(this, args); }
            
@@ -207,7 +220,7 @@ namespace TypeWalker
             }
         }
 
-        private void VisitMethod(MethodInfo method)
+        private void VisitMethod(MethodInfo method, Type visitingType)
         {
             var args = new MethodEventArgs() 
             {

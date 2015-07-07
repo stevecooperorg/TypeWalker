@@ -13,6 +13,11 @@ namespace NamespaceOfTestClasses
     {
     }
 
+    public class Subclass : BasicClass
+    {
+        public string SubclassesOwnProperty { get; set; }
+    }
+
     public class BasicClass
     {
         [IgnoreForLanguageGenerator(KnockoutMappingGenerator.Id)]

@@ -9,6 +9,8 @@ namespace TypeWalker
     public class TypeEventArgs : EventArgs
     {
         public string TypeName { get; set; }
+        public ICollection<string> InterfaceNames { get; set; }
+        public TypeEventArgs BaseTypeInfo { get; set; }
         public string NameSpaceName { get; set; }
     }
 }

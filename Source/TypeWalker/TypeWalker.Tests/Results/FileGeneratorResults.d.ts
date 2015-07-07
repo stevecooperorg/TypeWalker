@@ -11,6 +11,13 @@ declare module NamespaceOfTestClasses {
     }
 }
 
+/* NamespaceOfTestClasses.Subclass */
+declare module NamespaceOfTestClasses {
+    export interface Subclass extends NamespaceOfTestClasses.BasicClass {
+        SubclassesOwnProperty: string;
+    }
+}
+
 /* NamespaceOfTestClasses.ReferencedClass */
 declare module NamespaceOfTestClasses {
     export interface ReferencedClass {

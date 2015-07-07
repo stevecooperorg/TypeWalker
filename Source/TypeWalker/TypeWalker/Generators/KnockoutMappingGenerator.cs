@@ -52,7 +52,15 @@ namespace TypeWalker.Generators
             }
         }
 
-        public override string TypeStartFormat 
+        public override string DerivedTypeStartFormat
+        {
+            get
+            {
+                return "    export interface {TypeName} extends {BaseTypeInfo.NameSpaceName}.{BaseTypeInfo.TypeName} {{" + Environment.NewLine;
+            }
+        }
+
+        public override string TerminalTypeStartFormat 
         {
             get 
             { 

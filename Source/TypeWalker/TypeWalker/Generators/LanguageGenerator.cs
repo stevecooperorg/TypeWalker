@@ -22,7 +22,9 @@ namespace TypeWalker.Generators
 
         public abstract string NamespaceEndFormat { get; }
 
-        public abstract string TypeStartFormat { get; }
+        public abstract string DerivedTypeStartFormat { get; }
+
+        public abstract string TerminalTypeStartFormat { get; }
 
         public abstract string TypeEndFormat { get; }
 
@@ -40,11 +42,20 @@ namespace TypeWalker.Generators
             visitor.NameSpaceVisiting += (sender, args) => { trace.AppendFormatObject(NamespaceStartFormat, args); };
             visitor.NameSpaceVisited += (sender, args) => { trace.AppendFormatObject(NamespaceEndFormat, args); };
 
-            visitor.TypeVisiting += (sender, args) => { trace.AppendFormatObject(TypeStartFormat, args); };
+            visitor.TypeVisiting += (sender, args) => {
+                if (args.BaseTypeInfo != null)
+                {
+                    trace.AppendFormatObject(DerivedTypeStartFormat, args);
+                }
+                else
+                {
+                    trace.AppendFormatObject(TerminalTypeStartFormat, args);
+                }
+            };
             visitor.TypeVisited += (sender, args) => { trace.AppendFormatObject(TypeEndFormat, args); };
 
             Func<MemberEventArgs, bool> include = args =>
-                (this.ExportsNonPublicMembers || args.IsPublic) && !args.IgnoredByGenerators.Contains(this.id);
+                (this.ExportsNonPublicMembers || args.IsPublic) &&  args.IsOwnProperty && !args.IgnoredByGenerators.Contains(this.id);
 
             visitor.MemberVisiting += (sender, args) => {
                 if (include(args))

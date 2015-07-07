@@ -1,4 +1,11 @@
-﻿/* NamespaceOfTestClasses.BasicClass */
+﻿/* NamespaceOfTestClasses.Subclass */
+declare module NamespaceOfTestClasses {
+    export interface Subclass extends NamespaceOfTestClasses.BasicClass {
+        SubclassesOwnProperty: string;
+    }
+}
+
+/* NamespaceOfTestClasses.BasicClass */
 declare module NamespaceOfTestClasses {
     export interface BasicClass {
         GetterSetterString: string;
