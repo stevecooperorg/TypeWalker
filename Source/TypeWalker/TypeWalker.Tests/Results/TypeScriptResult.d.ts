@@ -1,11 +1,4 @@
-﻿/* NamespaceOfTestClasses.Subclass */
-declare module NamespaceOfTestClasses {
-    export interface Subclass extends NamespaceOfTestClasses.BasicClass {
-        SubclassesOwnProperty: string;
-    }
-}
-
-/* NamespaceOfTestClasses.BasicClass */
+﻿/* NamespaceOfTestClasses.BasicClass */
 declare module NamespaceOfTestClasses {
     export interface BasicClass {
         GetterSetterString: string;
@@ -23,5 +16,12 @@ declare module NamespaceOfTestClasses {
     export interface ReferencedClass {
         SelfReference: NamespaceOfTestClasses.ReferencedClass;
         BackReference: NamespaceOfTestClasses.BasicClass;
+    }
+}
+
+/* NamespaceOfTestClasses.Subclass */
+declare module NamespaceOfTestClasses {
+    export interface Subclass extends NamespaceOfTestClasses.BasicClass {
+        SubclassesOwnProperty: string;
     }
 }

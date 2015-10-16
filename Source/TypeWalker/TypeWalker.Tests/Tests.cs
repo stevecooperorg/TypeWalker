@@ -21,6 +21,15 @@ namespace TypeWalker.Tests
         }
 
         [TestMethod]
+        public void TypescriptGenerator_HandlesCollectionsSuitably()
+        {
+            var generator = new TypeScriptGenerator();
+            var actual = generator.Generate(new List<Type> { typeof(CollectionTestClasses.CollectionTestClass) });
+            var expected = Results.Resources.CollectionTest;
+            StringAssert.HaveTrimmedContent(expected, actual);
+        }
+
+        [TestMethod]
         public void KnockoutMappingGenerator_GeneratesWorkingTypescript()
         {
             var generator = new KnockoutMappingGenerator("KOGenerated");

@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BasicClass.cs" />
+    <Compile Include="CollectionTestClass.cs" />
     <Compile Include="Results\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -85,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Results\VisitorTestsResult.txt" />
+    <TypeScriptCompile Include="Results\CollectionTest.d.ts" />
     <TypeScriptCompile Include="Results\FileGeneratorResults.d.ts" />
     <TypeScriptCompile Include="Results\KnockoutResult.d.ts" />
     <TypeScriptCompile Include="Results\TypeScriptResult.d.ts" />

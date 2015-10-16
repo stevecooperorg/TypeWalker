@@ -60,6 +60,7 @@ namespace TypeWalker
         {
             var args = new TypeEventArgs()
             {
+                Type = type,
                 TypeName = TypeName(type),
                 NameSpaceName = NameSpace(type)
             };

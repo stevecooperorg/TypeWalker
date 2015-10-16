@@ -1,4 +1,12 @@
-﻿/* NamespaceOfTestClasses.BasicClass */
+﻿/* AlternateNamespace.DistinctClass */
+declare module AlternateNamespace {
+    export interface DistinctClass {
+        Foo: string;
+        Backreference: NamespaceOfTestClasses.ReferencedClass;
+    }
+}
+
+/* NamespaceOfTestClasses.BasicClass */
 declare module NamespaceOfTestClasses {
     export interface BasicClass {
         GetterSetterString: string;
@@ -11,13 +19,6 @@ declare module NamespaceOfTestClasses {
     }
 }
 
-/* NamespaceOfTestClasses.Subclass */
-declare module NamespaceOfTestClasses {
-    export interface Subclass extends NamespaceOfTestClasses.BasicClass {
-        SubclassesOwnProperty: string;
-    }
-}
-
 /* NamespaceOfTestClasses.ReferencedClass */
 declare module NamespaceOfTestClasses {
     export interface ReferencedClass {
@@ -26,10 +27,9 @@ declare module NamespaceOfTestClasses {
     }
 }
 
-/* AlternateNamespace.DistinctClass */
-declare module AlternateNamespace {
-    export interface DistinctClass {
-        Foo: string;
-        Backreference: NamespaceOfTestClasses.ReferencedClass;
+/* NamespaceOfTestClasses.Subclass */
+declare module NamespaceOfTestClasses {
+    export interface Subclass extends NamespaceOfTestClasses.BasicClass {
+        SubclassesOwnProperty: string;
     }
 }

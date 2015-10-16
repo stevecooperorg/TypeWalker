@@ -36,6 +36,15 @@ namespace TypeWalker.Generators
 
         public string Generate(IEnumerable<Type> startingTypes)
         {
+            var types = new List<TypeEventArgs>();
+            var typeCollector = new Visitor();
+            typeCollector.TypeVisited += (sender, args) => { types.Add(args); };
+            typeCollector.Visit(startingTypes, this.language);
+
+            types.Sort((t1, t2) => string.Compare(t1.FullTypeName, t2.FullTypeName, StringComparison.InvariantCultureIgnoreCase));
+
+            var allTypes = types.Select(t => t.Type).ToList();
+
             var trace = new StringBuilder();
             var visitor = new Visitor();
 
@@ -72,7 +81,7 @@ namespace TypeWalker.Generators
                 };
             };
 
-            visitor.Visit(startingTypes, this.language);
+            visitor.Visit(allTypes, this.language);
 
             var languageOutput = trace.ToString().Trim();
 

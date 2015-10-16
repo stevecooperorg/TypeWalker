@@ -1,12 +1,4 @@
-﻿/* NamespaceOfTestClasses.Subclass */
-declare module KOGenerated.NamespaceOfTestClasses {
-    export interface Subclass extends KOGenerated.NamespaceOfTestClasses.BasicClass {
-        SubclassesOwnProperty(): string;
-        SubclassesOwnProperty(value: string): void;
-    }
-}
-
-/* NamespaceOfTestClasses.BasicClass */
+﻿/* NamespaceOfTestClasses.BasicClass */
 declare module KOGenerated.NamespaceOfTestClasses {
     export interface BasicClass {
         GetterPrivateSetterString(): number;
@@ -31,5 +23,13 @@ declare module KOGenerated.NamespaceOfTestClasses {
         SelfReference(value: KOGenerated.NamespaceOfTestClasses.ReferencedClass): void;
         BackReference(): KOGenerated.NamespaceOfTestClasses.BasicClass;
         BackReference(value: KOGenerated.NamespaceOfTestClasses.BasicClass): void;
+    }
+}
+
+/* NamespaceOfTestClasses.Subclass */
+declare module KOGenerated.NamespaceOfTestClasses {
+    export interface Subclass extends KOGenerated.NamespaceOfTestClasses.BasicClass {
+        SubclassesOwnProperty(): string;
+        SubclassesOwnProperty(value: string): void;
     }
 }

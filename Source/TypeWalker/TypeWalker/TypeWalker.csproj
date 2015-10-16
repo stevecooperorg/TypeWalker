@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\AINewWorld\Main\Source\AITrackRecord\bin\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -80,6 +80,7 @@
     </None>
     <None Include="pack.bat" />
     <None Include="NuGet\TypeWalker.nuspec" />
+    <None Include="TypeWalker.v2.ncrunchproject" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NuGet\content\" />

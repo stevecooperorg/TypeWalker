@@ -88,4 +88,3 @@ Save, possibly close and re-open again, then start building. It'll generate your
 
     Scripts/TypeWalker.txt
     Scripts/TypeWalker.d.ts
-
