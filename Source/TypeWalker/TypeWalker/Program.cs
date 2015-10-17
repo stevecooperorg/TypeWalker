@@ -11,7 +11,7 @@ namespace TypeWalker
     public static class Program
     {
         [System.STAThread]
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
             var runtime = new ConsoleRuntime();
 
@@ -32,10 +32,9 @@ namespace TypeWalker
             if (!File.Exists (configFile))
             {
                 runtime.Error("config file '{0}' does not exist: use, e.g., /configFile=<configFile.xml>", configFile);
-                return;
+                return -1;
             }
 
-            
             runtime.Log("Reading config file: " + configFile);
 
             var assemblyLoader = new AssemblyLoader(runtime);
@@ -46,7 +45,13 @@ namespace TypeWalker
             var fileGenerator = new FileGenerator(assemblyLoader);
             
             string fileContent;
-            fileGenerator.TryGenerate(configFile, lines, runtime, generators, out fileContent);
+            var loaded = fileGenerator.TryGenerate(configFile, lines, runtime, generators, out fileContent);
+
+            if (!loaded)
+            {
+                runtime.Error("Could not generate the file for " + configFile);
+                return -2;
+            }
 
             var fullOutputFile = Path.GetFullPath(outputFile);
 
@@ -59,6 +64,8 @@ namespace TypeWalker
             {
                 runtime.Log("TypeWalker output file is up to date: " + fullOutputFile);
             }
+
+            return 0;
         }
 
         private static LanguageGenerator GetGenerator(string language, string knockoutPrefix, IRuntime runtime)

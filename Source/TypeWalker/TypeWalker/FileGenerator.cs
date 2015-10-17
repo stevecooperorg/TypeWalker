@@ -106,7 +106,7 @@ namespace TypeWalker
                 }
 
                 result = sb.ToString();
-                return true;
+                return !loadFailed;
             }
             catch
             {

@@ -5,27 +5,21 @@ TypeWalker.targets
 -->
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <PropertyGroup>
-    <CompileDependsOn>
-      $(CompileDependsOn);
-      CompileTypeWalker;
-    </CompileDependsOn>
-  </PropertyGroup>
-  
   <!-- Generate TypeScript Resources Configuration -->
   <PropertyGroup>
     <GenerateTypeScriptResourcesResourceGeneratorPath>$(ProjectDir)bin\TypeWalker.exe</GenerateTypeScriptResourcesResourceGeneratorPath>
+    <GenerateTypeScriptResourcesResourceGeneratorSourcePath>$(MSBuildThisFileDirectory)..\..\lib\Net40\TypeWalker.exe</GenerateTypeScriptResourcesResourceGeneratorSourcePath>
   </PropertyGroup>
-    
+
   <!-- Generate Javascript Resources Target -->
-  <Target Name="GenerateTypeScriptResources" BeforeTargets="CompileTypeScript">
+  <Target Name="GenerateTypeScriptResources" BeforeTargets="CompileTypeScript" AfterTargets="_CopyFilesMarkedCopyLocal">
     <Message Text="Running GenerateJavascriptResources target" Importance="high" />
+    <Copy
+        SourceFiles="$(GenerateTypeScriptResourcesResourceGeneratorSourcePath)"
+        DestinationFiles="$(GenerateTypeScriptResourcesResourceGeneratorPath)" />
     <Exec
         Command="$(GenerateTypeScriptResourcesResourceGeneratorPath) /binDir=&quot;$(ProjectDir)bin&quot; /configFile=&quot;$(ProjectDir)%(GenerateTypeScriptResources.Identity)&quot; /language=&quot;TypeScript&quot; /outputFile=&quot;$(ProjectDir)%(GenerateTypeScriptResources.RelativeDir)%(GenerateTypeScriptResources.Filename).d.ts&quot;"
     />
-  </Target>
-
-  <Target Name="CompileTypeWalker" Condition="'$(BuildingProject)' != 'false'">
   </Target>
 
 </Project>
