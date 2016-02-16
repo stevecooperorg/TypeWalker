@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using TypeWalker.Extensions;
 
 namespace TypeWalker.Generators
@@ -12,7 +11,7 @@ namespace TypeWalker.Generators
         private readonly Language language;
         private readonly string id;
 
-        public LanguageGenerator(Language language, string id)
+        protected LanguageGenerator(Language language, string id)
         {
             this.language = language;
             this.id = id;

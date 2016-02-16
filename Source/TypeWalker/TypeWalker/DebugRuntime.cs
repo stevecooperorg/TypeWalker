@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace TypeWalker
 {
@@ -23,7 +18,6 @@ namespace TypeWalker
         {
             Debug.WriteLine("Info: " + message);
         }
-
 
         public void ErrorInFile(string file, int lineNumber, string message, params object[] args)
         {
