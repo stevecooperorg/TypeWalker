@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using TypeWalker.Extensions;
 using TypeWalker.Generators;
 
@@ -21,7 +19,7 @@ namespace TypeWalker
         public event EventHandler<TypeEventArgs> TypeVisited;
 
         private Language language;
-        private List<Type> visited = new List<Type>();
+        private HashSet<Type> visited = new HashSet<Type>();
         private Queue<Type> toVisit = new Queue<Type>();
 
         public void Visit(IEnumerable<Type> types, Language language)
@@ -43,17 +41,19 @@ namespace TypeWalker
             }
         }
 
+        /// <summary>
+        /// Gets the languages that should ignore this member
+        /// </summary>
+        /// <param name="member"></param>
+        /// <returns>
+        /// List of language ids that should ignore this member when
+        /// generating output
+        /// </returns>
         private List<string> IgnoreLanguages(MemberInfo member)
         {
-            var attributeData = member
-                .GetCustomAttributes<IgnoreForLanguageGeneratorAttribute>()
-                .ToList();
-
-            var attributeNames = attributeData
-                .Select(a => a.LanguageId)
-                .ToList();
-
-            return attributeNames;
+            return member.GetCustomAttributes<IgnoreForLanguageGeneratorAttribute>()
+                         .Select(a => a.LanguageId)
+                         .ToList();
         }
 
         private TypeEventArgs GetTypeEventArgs(Type type)
@@ -85,15 +85,8 @@ namespace TypeWalker
 
             var typeArgs = GetTypeEventArgs(type);
 
-            if (NameSpaceVisiting != null)
-            {
-                NameSpaceVisiting(this, nsArgs);
-            }
-
-            if (TypeVisiting != null)
-            {
-                TypeVisiting(this, typeArgs); 
-            }
+            if (NameSpaceVisiting != null) { NameSpaceVisiting(this, nsArgs); }
+            if (TypeVisiting != null) { TypeVisiting(this, typeArgs);  }
 
             foreach (var property in type.GetProperties())
             {
@@ -110,15 +103,8 @@ namespace TypeWalker
                 VisitMethod(member, type);
             }
 
-            if (TypeVisited != null) 
-            {
-                TypeVisited(this, typeArgs); 
-            }
-
-            if (NameSpaceVisited != null)
-            {
-                NameSpaceVisited(this, nsArgs);
-            }
+            if (TypeVisited != null)  { TypeVisited(this, typeArgs);  }
+            if (NameSpaceVisited != null) { NameSpaceVisited(this, nsArgs); }
         }
 
         private string Comment(Type type)
@@ -141,7 +127,6 @@ namespace TypeWalker
             if (MemberVisiting != null) { MemberVisiting(this, args); }
 
             this.RegisterType(member.FieldType);
-
 
             if (MemberVisited != null) { MemberVisited(this, args); }
         }
@@ -189,7 +174,7 @@ namespace TypeWalker
             }
 
             Type collectionOf;
-            if (type.IsGenericCollectionType(out collectionOf))
+            if (type.TryGetGenericCollectionType(out collectionOf))
             {
                 RegisterType(collectionOf);
                 return;
@@ -229,6 +214,7 @@ namespace TypeWalker
             };
 
             if (MethodVisiting != null) { MethodVisiting(this, args); }
+            // pretty sure I'll have to do something here for the controller methods input and output types
             if (MethodVisited != null) { MethodVisited(this, args); }
         }
 

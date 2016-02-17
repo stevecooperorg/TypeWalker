@@ -35,7 +35,14 @@ namespace TypeWalker.Tests
             {
                 StartMergeProgram(expected, actual);
                 var differenceAt = FirstDifferenceOnLine(expected, actual, StringComparison.InvariantCulture);
-                Assert.AreEqual(expected, actual, "Strings start to differ at line " + differenceAt);
+                if (differenceAt == -1)
+                {
+                    // not actually different, just the new line characters were different
+                }
+                else
+                {
+                    Assert.AreEqual(expected, actual, "Strings start to differ at line " + differenceAt);
+                }
             }
         }
 

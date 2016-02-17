@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using TypeWalker.Extensions;
 
 namespace TypeWalker
@@ -43,7 +39,6 @@ namespace TypeWalker
             var substititedMessage = string.Format(message, args);
 
             // what message does MSBuild recognise?
-            var exePath = Assembly.GetExecutingAssembly().GetAssemblyPath();
             var msBuildMessage = string.Format(@"{0}({1}) : {2}: {3}.", filePath, lineNumber, type, substititedMessage);
 
             // write out the message with the appropriate colour

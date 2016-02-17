@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -10,10 +9,9 @@ using TypeWalker.Generators;
 
 namespace TypeWalker
 {
-    
     public class FileGenerator
     {
-        private AssemblyLoader assemblyLoader;
+        private readonly AssemblyLoader assemblyLoader;
 
         public FileGenerator(AssemblyLoader assemblyLoader)
         {
@@ -114,6 +112,5 @@ namespace TypeWalker
                 return false;
             }
         }
-
     }
 }
