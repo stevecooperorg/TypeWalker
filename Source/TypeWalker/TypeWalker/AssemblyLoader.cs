@@ -12,16 +12,16 @@ namespace TypeWalker
             this.runtime = runtime;
         }
 
-        public Assembly Load(string name)
-        {
-            var assembly = AppDomain.CurrentDomain.Load(name); // Assembly.ReflectionOnlyLoad(name);
-            return assembly;
-        }
-
         public static AssemblyLoader FromExecutingAssembly(IRuntime runtime)
         {
             var loader = new AssemblyLoader(runtime);
             return loader;
+        }
+
+        public Assembly Load(string name)
+        {
+            var assembly = AppDomain.CurrentDomain.Load(name); // Assembly.ReflectionOnlyLoad(name);
+            return assembly;
         }
     }
 }

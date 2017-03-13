@@ -6,7 +6,10 @@ namespace TypeWalker.Generators
 {
     public class TypeScriptLanguage : Language
     {
+        private static readonly TypeInfo any = new TypeInfo("any", string.Empty);
         private static System.CodeDom.Compiler.CodeDomProvider codeDomProvider;
+
+        private readonly Dictionary<Type, TypeInfo> cache = new Dictionary<Type, TypeInfo>();
 
         static TypeScriptLanguage()
         {
@@ -15,8 +18,6 @@ namespace TypeWalker.Generators
                 .CodeDomProvider
                 .CreateProvider("CSharp");
         }
-
-        private readonly Dictionary<Type, TypeInfo> cache = new Dictionary<Type, TypeInfo>();
 
         public override TypeInfo GetTypeInfo(Type type)
         {
@@ -28,8 +29,6 @@ namespace TypeWalker.Generators
             }
             return result;
         }
-
-        private static readonly TypeInfo any = new TypeInfo("any", string.Empty);
 
         public TypeInfo GetTypeInfoInner(Type type)
         {
@@ -70,7 +69,7 @@ namespace TypeWalker.Generators
                 return TypeScriptLanguage.any;
             }
             //*/
-            
+
             // for now, uses a C# style for anything else
             string typeName = type.FullName.Replace(type.Namespace + ".", "");
             var typeReference = new System.CodeDom.CodeTypeReference(typeName);

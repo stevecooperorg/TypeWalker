@@ -1,20 +1,20 @@
 ﻿/* AlternateNamespace.DistinctClass */
 declare module AlternateNamespace {
     export interface DistinctClass {
-        Foo: string;
         Backreference: NamespaceOfTestClasses.ReferencedClass;
+        Foo: string;
     }
 }
 
 /* NamespaceOfTestClasses.BasicClass */
 declare module NamespaceOfTestClasses {
     export interface BasicClass {
-        GetterSetterString: string;
         GetterPrivateSetterString: number;
-        NullableGetterSetterBool: boolean;
+        GetterSetterString: string;
         NavigationArray: NamespaceOfTestClasses.ReferencedClass[];
         NavigationProperty: NamespaceOfTestClasses.ReferencedClass;
         NavigationProperty2: NamespaceOfTestClasses.ReferencedClass;
+        NullableGetterSetterBool: boolean;
         StringField: string;
     }
 }
@@ -22,8 +22,8 @@ declare module NamespaceOfTestClasses {
 /* NamespaceOfTestClasses.ReferencedClass */
 declare module NamespaceOfTestClasses {
     export interface ReferencedClass {
-        SelfReference: NamespaceOfTestClasses.ReferencedClass;
         BackReference: NamespaceOfTestClasses.BasicClass;
+        SelfReference: NamespaceOfTestClasses.ReferencedClass;
     }
 }
 

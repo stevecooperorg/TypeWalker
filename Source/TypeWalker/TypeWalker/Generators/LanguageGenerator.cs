@@ -8,8 +8,8 @@ namespace TypeWalker.Generators
 {
     public abstract class LanguageGenerator
     {
-        private readonly Language language;
         private readonly string id;
+        private readonly Language language;
 
         protected LanguageGenerator(Language language, string id)
         {
@@ -17,21 +17,15 @@ namespace TypeWalker.Generators
             this.id = id;
         }
 
-        public abstract string NamespaceStartFormat { get; }
-
-        public abstract string NamespaceEndFormat { get; }
-
         public abstract string DerivedTypeStartFormat { get; }
-
+        public abstract bool ExportsNonPublicMembers { get; }
+        public abstract string MemberEndFormat { get; }
+        public abstract string MemberStartFormat { get; }
+        public abstract string NamespaceEndFormat { get; }
+        public abstract string NamespaceStartFormat { get; }
         public abstract string TerminalTypeStartFormat { get; }
 
         public abstract string TypeEndFormat { get; }
-
-        public abstract string MemberStartFormat { get; }
-
-        public abstract string MemberEndFormat { get; }
-
-        public abstract bool ExportsNonPublicMembers { get; }
 
         public string Generate(IEnumerable<Type> startingTypes)
         {
@@ -50,7 +44,8 @@ namespace TypeWalker.Generators
             visitor.NameSpaceVisiting += (sender, args) => { trace.AppendFormatObject(NamespaceStartFormat, args); };
             visitor.NameSpaceVisited += (sender, args) => { trace.AppendFormatObject(NamespaceEndFormat, args); };
 
-            visitor.TypeVisiting += (sender, args) => {
+            visitor.TypeVisiting += (sender, args) =>
+            {
                 if (args.BaseTypeInfo != null)
                 {
                     trace.AppendFormatObject(DerivedTypeStartFormat, args);
@@ -63,9 +58,10 @@ namespace TypeWalker.Generators
             visitor.TypeVisited += (sender, args) => { trace.AppendFormatObject(TypeEndFormat, args); };
 
             Func<MemberEventArgs, bool> include = args =>
-                (this.ExportsNonPublicMembers || args.IsPublic) &&  args.IsOwnProperty && !args.IgnoredByGenerators.Contains(this.id);
+                (this.ExportsNonPublicMembers || args.IsPublic) && args.IsOwnProperty && !args.IgnoredByGenerators.Contains(this.id);
 
-            visitor.MemberVisiting += (sender, args) => {
+            visitor.MemberVisiting += (sender, args) =>
+            {
                 if (include(args))
                 {
                     trace.AppendFormatObject(MemberStartFormat, args);

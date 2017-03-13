@@ -18,8 +18,6 @@ TypeWalker.targets
         SourceFiles="$(GenerateTypeScriptResourcesResourceGeneratorSourcePath)"
         DestinationFiles="$(GenerateTypeScriptResourcesResourceGeneratorPath)" />
     <Exec
-        Command="$(GenerateTypeScriptResourcesResourceGeneratorPath) /binDir=&quot;$(ProjectDir)bin&quot; /configFile=&quot;$(ProjectDir)%(GenerateTypeScriptResources.Identity)&quot; /language=&quot;TypeScript&quot; /outputFile=&quot;$(ProjectDir)%(GenerateTypeScriptResources.RelativeDir)%(GenerateTypeScriptResources.Filename).d.ts&quot;"
-    />
+        Command="$(GenerateTypeScriptResourcesResourceGeneratorPath) /binDir=&quot;$(ProjectDir)bin&quot; /configFile=&quot;$(ProjectDir)%(GenerateTypeScriptResources.Identity)&quot; /language=&quot;TypeScript&quot; /outputFile=&quot;$(ProjectDir)%(GenerateTypeScriptResources.RelativeDir)%(GenerateTypeScriptResources.Filename).d.ts&quot;" />
   </Target>
-
 </Project>

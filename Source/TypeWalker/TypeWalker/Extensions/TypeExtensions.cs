@@ -9,6 +9,21 @@ namespace TypeWalker.Extensions
     /// </summary>
     internal static class TypeExtensions
     {
+        public static bool IsArrayType(this Type type)
+        {
+            return type.IsArray;
+        }
+
+        public static bool IsDictionaryType(this Type type)
+        {
+            var acceptableTypes = new[] {
+                typeof(IDictionary<,>),
+                typeof(Dictionary<,>),
+                typeof(KeyValuePair<,>),
+            };
+            return IsGenericType(type, acceptableTypes);
+        }
+
         /// <summary>
         /// Determines if the given type is exportable
         /// </summary>
@@ -36,7 +51,12 @@ namespace TypeWalker.Extensions
                     !t.ContainsGenericParameters &&
                     !t.Name.Contains("<") &&
                     !t.IsGenericType;
+        }
 
+        public static bool IsGenericCollectionType(this Type type)
+        {
+            Type throwAway;
+            return TryGetGenericCollectionType(type, out throwAway);
         }
 
         /// <summary>
@@ -49,16 +69,6 @@ namespace TypeWalker.Extensions
         public static bool IsNullableType(this Type type)
         {
             return type.IsGenericType && (typeof(Nullable<>) == type.GetGenericTypeDefinition());
-        }
-
-        public static bool IsDictionaryType(this Type type)
-        {
-            var acceptableTypes = new[] {
-                typeof(IDictionary<,>),
-                typeof(Dictionary<,>),    
-                typeof(KeyValuePair<,>),
-            };
-            return IsGenericType(type, acceptableTypes);
         }
 
         /// <summary>
@@ -91,10 +101,10 @@ namespace TypeWalker.Extensions
             return TryGetGenericType(type, acceptableTypes, out collectionOf);
         }
 
-        public static bool IsGenericCollectionType(this Type type)
+        private static bool IsGenericType(this Type type, Type[] acceptableTypes)
         {
             Type throwAway;
-            return TryGetGenericCollectionType(type, out throwAway);
+            return TryGetGenericType(type, acceptableTypes, out throwAway);
         }
 
         private static bool TryGetGenericType(this Type type, Type[] acceptableTypes, out Type collectionOf)
@@ -114,17 +124,6 @@ namespace TypeWalker.Extensions
 
             collectionOf = null;
             return false;
-        }
-
-        private static bool IsGenericType(this Type type, Type[] acceptableTypes)
-        {
-            Type throwAway;
-            return TryGetGenericType(type, acceptableTypes, out throwAway);
-        }
-
-        public static bool IsArrayType(this Type type)
-        {
-            return type.IsArray;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace TypeWalker
 
             optionSet.Parse(args);
 
-            if (!File.Exists (configFile))
+            if (!File.Exists(configFile))
             {
                 runtime.Error("config file '{0}' does not exist: use, e.g., /configFile=<configFile.xml>", configFile);
                 return -1;
@@ -41,7 +41,7 @@ namespace TypeWalker
 
             var lines = File.ReadAllLines(configFile);
             var fileGenerator = new FileGenerator(assemblyLoader);
-            
+
             string fileContent;
             var loaded = fileGenerator.TryGenerate(configFile, lines, runtime, generators, out fileContent);
 
@@ -68,19 +68,19 @@ namespace TypeWalker
 
         private static LanguageGenerator GetGenerator(string language, string knockoutPrefix, IRuntime runtime)
         {
-                switch (language)
-                {
-                    case TypeScriptGenerator.Id:
-                        return new TypeScriptGenerator();
-                       
-                    case KnockoutMappingGenerator.Id:
-                        return new KnockoutMappingGenerator(knockoutPrefix);
-                       
-                    default:
-                        runtime.Error("Unknown language: {0}", language);
-                        System.Environment.Exit(-1);
-                        return (LanguageGenerator)null;
-            }       
+            switch (language)
+            {
+                case TypeScriptGenerator.Id:
+                    return new TypeScriptGenerator();
+
+                case KnockoutMappingGenerator.Id:
+                    return new KnockoutMappingGenerator(knockoutPrefix);
+
+                default:
+                    runtime.Error("Unknown language: {0}", language);
+                    System.Environment.Exit(-1);
+                    return (LanguageGenerator)null;
+            }
         }
     }
 }
